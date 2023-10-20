@@ -1,0 +1,11 @@
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/jsonrpsee_types-f289099fb3360cbd.rmeta: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/params.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/request.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/response.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/error.rs
+
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/libjsonrpsee_types-f289099fb3360cbd.rlib: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/params.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/request.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/response.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/error.rs
+
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/jsonrpsee_types-f289099fb3360cbd.d: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/params.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/request.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/response.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/error.rs
+
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/lib.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/params.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/request.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/response.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/jsonrpsee-types-0.8.0/src/error.rs:

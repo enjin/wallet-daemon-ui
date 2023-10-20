@@ -1,0 +1,1 @@
+{"rustc":9236829460855780385,"features":"","target":0,"profile":0,"path":0,"deps":[[8156901596006782827,"build_script_build",false,16213402231837613325]],"local":[{"RerunIfChanged":{"output":"release/build/ss58-registry-88dccf10ea566f0a/output","paths":["build.rs","ss58-registry.json"]}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}
