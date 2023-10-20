@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Super Cool App
+Comment=Super Cool App that does everything
+Exec=super-cool-app
+Icon=${SNAP}/meta/gui/super-cool-app.png
+Terminal=false
+Type=Application
+Categories=Education
