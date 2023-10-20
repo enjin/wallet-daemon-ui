@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
 
@@ -33,9 +34,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _enjinMatrixKey = new TextEditingController();
-  final TextEditingController _canaryMatrixKey = new TextEditingController();
-  final TextEditingController _walletPassword = new TextEditingController();
+  final TextEditingController _enjinMatrixKey = TextEditingController();
+  final TextEditingController _canaryMatrixKey = TextEditingController();
+  final TextEditingController _walletPassword = TextEditingController();
 
   String currentNetwork = 'enjin-matrix';
   final platformKeys = {
@@ -91,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'wallet/linux/wallet',
       [],
       environment: {
-        "KEY_PASS": 'testando', //walletPassword,
+        "KEY_PASS": walletPassword,
         "PLATFORM_KEY": platformKeys[currentNetwork] ?? '',
         "CONFIG_FILE": "config.json",
       },
@@ -127,13 +128,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return widgets;
   }
 
-  void setKeys() {
+  void setKeys() async {
     platformKeys['enjin-matrix'] = _enjinMatrixKey.text;
     platformKeys['canary-matrix'] = _canaryMatrixKey.text;
-    walletPassword = _walletPassword.text;
-  }
 
-  // 7wlRtl54SDVwXfKsnOjmthTrGrOOHLe9K30mWDpT2bfc9efb
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('enjin.matrix.key', _enjinMatrixKey.text);
+    await prefs.setString('enjin.canary.key', _canaryMatrixKey.text);
+  }
 
   Future<void> _showConfigDialog() async {
     _enjinMatrixKey.text = platformKeys['enjin-matrix'] ?? '';
@@ -298,13 +300,44 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void loadData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? password = prefs.getString('enjin.wallet.password');
+    final String? enjinMatrixKey = prefs.getString('enjin.matrix.key');
+    final String? enjinCanaryKey = prefs.getString('enjin.canary.key');
+    final String? selectedNetwork = prefs.getString('enjin.network');
+    print("Loaded password: $password");
+    print("Loaded enjinMatrixKey: $enjinMatrixKey");
+    print("Loaded enjinCanaryKey: $enjinCanaryKey");
+    print("Loaded selectedNetwork: $selectedNetwork");
+
+    if (password == null) {
+      print("Generating new password");
+      final uuid = const Uuid().v4();
+      await prefs.setString('enjin.wallet.password', uuid);
+      walletPassword = uuid;
+      _walletPassword.text = uuid;
+      print("Generated password: $uuid");
+    }
+
+    setState(() {
+      walletPassword = password ?? walletPassword;
+      _walletPassword.text = walletPassword;
+      currentNetwork = selectedNetwork ?? 'enjin-matrix';
+      platformKeys['enjin-matrix'] = enjinMatrixKey ?? '';
+      platformKeys['canary-matrix'] = enjinCanaryKey ?? '';
+    });
+  }
+
+  void setCurrentNetwork() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('enjin.network', currentNetwork);
+  }
+
   @override
   void initState() {
     super.initState();
-    if (walletPassword == '') {
-      walletPassword = const Uuid().v4();
-      _walletPassword.text = walletPassword;
-    }
+    loadData();
   }
 
   @override
@@ -337,7 +370,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     initialSelection: currentNetwork,
                     onSelected: (String? value) {
                       currentNetwork = value!;
-                      print(currentNetwork);
+                      setCurrentNetwork();
                       stopWallet();
                       setConfig();
                     },
