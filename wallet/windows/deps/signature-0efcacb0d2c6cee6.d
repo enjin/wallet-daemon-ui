@@ -1,0 +1,11 @@
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-pc-windows-gnu/release/deps/signature-0efcacb0d2c6cee6.rmeta: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/error.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signature.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signer.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/verifier.rs
+
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-pc-windows-gnu/release/deps/libsignature-0efcacb0d2c6cee6.rlib: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/error.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signature.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signer.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/verifier.rs
+
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-pc-windows-gnu/release/deps/signature-0efcacb0d2c6cee6.d: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/error.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signature.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signer.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/verifier.rs
+
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/lib.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/error.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signature.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/signer.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/signature-1.5.0/src/verifier.rs:

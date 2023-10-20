@@ -1,0 +1,12 @@
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-pc-windows-gnu/release/deps/beef-290aaa53f78508fb.rmeta: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/traits.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/wide.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/serde.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/generic.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lean.rs
+
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-pc-windows-gnu/release/deps/libbeef-290aaa53f78508fb.rlib: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/traits.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/wide.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/serde.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/generic.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lean.rs
+
+/home/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-pc-windows-gnu/release/deps/beef-290aaa53f78508fb.d: /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lib.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/traits.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/wide.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/serde.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/generic.rs /home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lean.rs
+
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lib.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/traits.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/wide.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/serde.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/generic.rs:
+/home/custodio/.cargo/registry/src/github.com-1ecc6299db9ec823/beef-0.5.1/src/lean.rs:

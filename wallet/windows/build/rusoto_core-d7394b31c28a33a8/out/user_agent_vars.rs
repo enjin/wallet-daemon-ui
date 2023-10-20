@@ -1,0 +1,1 @@
+static RUST_VERSION: &str = "1.68.0-nightly";

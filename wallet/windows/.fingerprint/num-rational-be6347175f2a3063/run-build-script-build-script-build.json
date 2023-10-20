@@ -1,0 +1,1 @@
+{"rustc":9236829460855780385,"features":"","target":0,"profile":0,"path":0,"deps":[[17990883647888267506,"build_script_build",false,14239342434911989396]],"local":[{"RerunIfChanged":{"output":"x86_64-pc-windows-gnu/release/build/num-rational-be6347175f2a3063/output","paths":["build.rs"]}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}
