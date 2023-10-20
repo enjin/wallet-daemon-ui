@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   uuid: ^4.1.0
   shared_preferences: ^2.2.2
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +32,11 @@ flutter:
   uses-material-design: true
   assets:
     - lib/assets/
+    - wallet/linux/
+    - wallet/macos-apple/
+    - wallet/macos-intel/
+    - wallet/windows/
+    - config.json
 
   # fonts:
   #   - family: Schyler

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as p;
 
 void main() {
   runApp(const MyApp());
@@ -88,13 +89,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void runWallet() async {
+    String dir = Directory.current.path;
+    String walletApp = p.join(dir, 'data/flutter_assets/wallet/linux/wallet');
+    String configFile = p.join(dir, 'data/flutter_assets/config.json');
+
+    await Process.run("chmod", ["+x", walletApp]);
     daemon = await Process.start(
-      'wallet/linux/wallet',
+      walletApp,
       [],
       environment: {
         "KEY_PASS": walletPassword,
         "PLATFORM_KEY": platformKeys[currentNetwork] ?? '',
-        "CONFIG_FILE": "config.json",
+        "CONFIG_FILE": configFile,
       },
     );
     daemon!.stdout.transform(utf8.decoder).forEach(addToOutput);
