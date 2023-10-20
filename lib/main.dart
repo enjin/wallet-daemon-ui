@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -33,10 +32,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String currentNetwork = 'enjin-matrix';
+
   List<String> output = [];
   late Process daemon;
+  String walletAddress = '';
 
   void addToOutput(String otp) {
+    if (walletAddress == '' && otp.contains('Enjin Matrix:')) {
+      for (String word in otp.split(' ')) {
+        final prefix = currentNetwork == 'enjin-matrix' ? 'ef' : 'cx';
+        if (word.startsWith(prefix)) {
+          String address = word.split('\n')[0];
+          setState(() {
+            walletAddress = address;
+          });
+        }
+      }
+    }
+
     setState(() {
       output.add(otp);
     });
@@ -55,6 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void stopWallet() {
+    // Should probably not clear // make an option later to clear
+    setState(() {
+      output = [];
+      walletAddress = '';
+    });
+
     daemon.kill();
   }
 
@@ -101,8 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: 10,
                   ),
                   DropdownMenu<String>(
-                    initialSelection: 'enjin-matrix',
-                    onSelected: (String? value) {},
+                    initialSelection: currentNetwork,
+                    onSelected: (String? value) {
+                      currentNetwork = value!;
+                    },
                     dropdownMenuEntries: [
                       DropdownMenuEntry<String>(
                         value: 'enjin-matrix',
@@ -117,30 +139,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     width: 10,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Wallet Address',
-                        style: TextStyle(
-                          color: Color(0xFF434A60),
-                          fontSize: 12,
-                          fontFamily: 'Hauora',
-                          fontWeight: FontWeight.w600,
+                  if (walletAddress != '')
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Wallet Address',
+                          style: TextStyle(
+                            color: Color(0xFF434A60),
+                            fontSize: 12,
+                            fontFamily: 'Hauora',
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      Text(
-                        'efRVybzWTEfL6XfaePrdt9e7xjx6meWiMJG38HSZVugXkpQRu',
-                        style: TextStyle(
-                          color: Color(0xFF858997),
-                          fontSize: 13,
-                          fontFamily: 'Hauora',
-                          fontWeight: FontWeight.w400,
+                        Text(
+                          walletAddress,
+                          style: TextStyle(
+                            color: Color(0xFF858997),
+                            fontSize: 13,
+                            fontFamily: 'Hauora',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   Spacer(),
                   MaterialButton(
                     onPressed: () => runWallet(),
