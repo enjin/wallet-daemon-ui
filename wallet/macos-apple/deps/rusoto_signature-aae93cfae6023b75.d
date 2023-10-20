@@ -1,0 +1,10 @@
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/rusoto_signature-aae93cfae6023b75.rmeta: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/librusoto_signature-aae93cfae6023b75.rlib: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/rusoto_signature-aae93cfae6023b75.d: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs
+
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs:

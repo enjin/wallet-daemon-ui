@@ -1,0 +1,10 @@
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/deps/rusoto_signature-d1a13dfe93bcf459.rmeta: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/deps/librusoto_signature-d1a13dfe93bcf459.rlib: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/deps/rusoto_signature-d1a13dfe93bcf459.d: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs
+
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/lib.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/region.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/signature.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rusoto_signature-0.47.0/src/stream.rs:

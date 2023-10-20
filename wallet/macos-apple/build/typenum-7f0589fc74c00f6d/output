@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/build/typenum-7f0589fc74c00f6d/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/build/typenum-7f0589fc74c00f6d/out/op.rs

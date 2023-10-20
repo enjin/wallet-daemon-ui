@@ -1,0 +1,11 @@
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/signature-832d3059778206b9.rmeta: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/error.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signer.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/verifier.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/libsignature-832d3059778206b9.rlib: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/error.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signer.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/verifier.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/release/deps/signature-832d3059778206b9.d: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/error.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signature.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signer.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/verifier.rs
+
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/lib.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/error.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signature.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/signer.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.5.0/src/verifier.rs:

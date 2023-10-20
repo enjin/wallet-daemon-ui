@@ -1,0 +1,47 @@
+TARGET = Some("x86_64-apple-darwin")
+OPT_LEVEL = Some("3")
+HOST = Some("aarch64-apple-darwin")
+CC_x86_64-apple-darwin = None
+CC_x86_64_apple_darwin = None
+TARGET_CC = None
+CC = None
+CROSS_COMPILE = None
+CFLAGS_x86_64-apple-darwin = None
+CFLAGS_x86_64_apple_darwin = None
+TARGET_CFLAGS = None
+CFLAGS = None
+CRATE_CC_NO_DEFAULTS = None
+DEBUG = Some("false")
+CARGO_CFG_TARGET_FEATURE = Some("cmpxchg16b,fxsr,sse,sse2,sse3,ssse3")
+CC_x86_64-apple-darwin = None
+CC_x86_64_apple_darwin = None
+TARGET_CC = None
+CC = None
+CROSS_COMPILE = None
+CFLAGS_x86_64-apple-darwin = None
+CFLAGS_x86_64_apple_darwin = None
+TARGET_CFLAGS = None
+CFLAGS = None
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some("cmpxchg16b,fxsr,sse,sse2,sse3,ssse3")
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-arch" "x86_64" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-Wall" "-Wextra" "-Wno-unused-function" "-DSECP256K1_API=" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_SCHNORRSIG=1" "-DENABLE_MODULE_EXTRAKEYS=1" "-DUSE_NUM_NONE=1" "-DUSE_FIELD_INV_BUILTIN=1" "-DUSE_SCALAR_INV_BUILTIN=1" "-DECMULT_GEN_PREC_BITS=4" "-DECMULT_WINDOW_SIZE=15" "-DUSE_EXTERNAL_DEFAULT_CALLBACKS=1" "-DENABLE_MODULE_RECOVERY=1" "-o" "/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/secp256k1-sys-4cd7f7c85d85e258/out/depend/secp256k1/contrib/lax_der_parsing.o" "-c" "depend/secp256k1/contrib/lax_der_parsing.c"
+exit status: 0
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-arch" "x86_64" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-Wall" "-Wextra" "-Wno-unused-function" "-DSECP256K1_API=" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_SCHNORRSIG=1" "-DENABLE_MODULE_EXTRAKEYS=1" "-DUSE_NUM_NONE=1" "-DUSE_FIELD_INV_BUILTIN=1" "-DUSE_SCALAR_INV_BUILTIN=1" "-DECMULT_GEN_PREC_BITS=4" "-DECMULT_WINDOW_SIZE=15" "-DUSE_EXTERNAL_DEFAULT_CALLBACKS=1" "-DENABLE_MODULE_RECOVERY=1" "-o" "/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/secp256k1-sys-4cd7f7c85d85e258/out/depend/secp256k1/src/secp256k1.o" "-c" "depend/secp256k1/src/secp256k1.c"
+cargo:warning=In file included from depend/secp256k1/src/secp256k1.c:20:
+cargo:warning=depend/secp256k1/src/ecdsa_impl.h:312:12: warning: use of bitwise '&' with boolean operands [-Wbitwise-instead-of-logical]
+cargo:warning=    return !rustsecp256k1_v0_4_1_scalar_is_zero(sigr) & !rustsecp256k1_v0_4_1_scalar_is_zero(sigs);
+cargo:warning=           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cargo:warning=                                                      &&
+cargo:warning=depend/secp256k1/src/ecdsa_impl.h:312:12: note: cast one or both operands to int to silence this warning
+cargo:warning=1 warning generated.
+exit status: 0
+AR_x86_64-apple-darwin = None
+AR_x86_64_apple_darwin = None
+TARGET_AR = None
+AR = None
+running: ZERO_AR_DATE="1" "ar" "cq" "/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/secp256k1-sys-4cd7f7c85d85e258/out/libsecp256k1.a" "/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/secp256k1-sys-4cd7f7c85d85e258/out/depend/secp256k1/contrib/lax_der_parsing.o" "/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/secp256k1-sys-4cd7f7c85d85e258/out/depend/secp256k1/src/secp256k1.o"
+exit status: 0
+running: "ar" "s" "/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/secp256k1-sys-4cd7f7c85d85e258/out/libsecp256k1.a"
+exit status: 0
+cargo:rustc-link-lib=static=secp256k1
+cargo:rustc-link-search=native=/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/secp256k1-sys-4cd7f7c85d85e258/out

@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/typenum-79d840c0a7bdd3b0/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/build/typenum-79d840c0a7bdd3b0/out/op.rs

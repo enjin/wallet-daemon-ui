@@ -1,0 +1,9 @@
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/deps/jsonrpsee_client_transport-24859419c67f9fbc.rmeta: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/mod.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/stream.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/deps/libjsonrpsee_client_transport-24859419c67f9fbc.rlib: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/mod.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/stream.rs
+
+/Users/custodio/Development/Enjin/Platform/wallet-daemon/target/x86_64-apple-darwin/release/deps/jsonrpsee_client_transport-24859419c67f9fbc.d: /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/lib.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/mod.rs /Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/stream.rs
+
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/lib.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/mod.rs:
+/Users/custodio/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpsee-client-transport-0.8.0/src/ws/stream.rs:
