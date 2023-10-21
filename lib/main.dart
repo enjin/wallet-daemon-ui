@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
@@ -90,10 +92,48 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void runWallet() async {
     String dir = Directory.current.path;
-    String walletApp = p.join(dir, 'data/flutter_assets/wallet/linux/wallet');
-    String configFile = p.join(dir, 'data/flutter_assets/config.json');
+
+    final String system = Platform.operatingSystem;
+    String walletApp = '';
+    String configFile = '';
+    String workingDir = '';
+
+    if (system == 'macos') {
+      List<String> pathes = Platform.executable.split('/');
+      pathes = pathes.sublist(0, pathes.length - 2);
+      dir = pathes.join('/');
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      String walletExe = (await deviceInfo.macOsInfo).arch == 'arm64'
+          ? 'macos-apple/wallet'
+          : 'macos-intel/wallet';
+
+      addToOutput(walletExe);
+
+      walletApp = p.join(
+          dir,
+          'Frameworks/App.framework/Versions/A/Resources/flutter_assets/wallet',
+          walletExe);
+
+      addToOutput(walletApp);
+
+      configFile = p.join(dir,
+          'Frameworks/App.framework/Versions/A/Resources/flutter_assets/config.json');
+
+      addToOutput(configFile);
+
+      workingDir = p.join(
+          dir, 'Frameworks/App.framework/Versions/A/Resources/flutter_assets');
+
+      addToOutput(workingDir);
+    } else {
+      walletApp = p.join(dir, 'data/flutter_assets/wallet/linux/wallet');
+      configFile = p.join(dir, 'data/flutter_assets/config.json');
+    }
 
     await Process.run("chmod", ["+x", walletApp]);
+    addToOutput('teste');
+
     daemon = await Process.start(
       walletApp,
       [],
@@ -102,7 +142,10 @@ class _MyHomePageState extends State<MyHomePage> {
         "PLATFORM_KEY": platformKeys[currentNetwork] ?? '',
         "CONFIG_FILE": configFile,
       },
+      workingDirectory: workingDir,
+      runInShell: true,
     );
+
     daemon!.stdout.transform(utf8.decoder).forEach(addToOutput);
   }
 
