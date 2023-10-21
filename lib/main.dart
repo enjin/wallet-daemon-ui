@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
@@ -99,40 +100,26 @@ class _MyHomePageState extends State<MyHomePage> {
     String workingDir = '';
 
     if (system == 'macos') {
-      List<String> pathes = Platform.executable.split('/');
-      pathes = pathes.sublist(0, pathes.length - 2);
-      dir = pathes.join('/');
-
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       String walletExe = (await deviceInfo.macOsInfo).arch == 'arm64'
           ? 'macos-apple/wallet'
           : 'macos-intel/wallet';
 
-      addToOutput(walletExe);
+      final directory = await getApplicationSupportDirectory();
+      workingDir = '${directory.path}/wallet-ui';
+      walletApp = '$workingDir/wallet';
+      configFile = '$workingDir/config.json';
 
-      walletApp = p.join(
-          dir,
-          'Frameworks/App.framework/Versions/A/Resources/flutter_assets/wallet',
-          walletExe);
+      //todo: if the binary already exists, don't copy it
+      copyAsset('wallet/$walletExe', walletApp);
+      copyAsset('config.json', configFile);
 
-      addToOutput(walletApp);
-
-      configFile = p.join(dir,
-          'Frameworks/App.framework/Versions/A/Resources/flutter_assets/config.json');
-
-      addToOutput(configFile);
-
-      workingDir = p.join(
-          dir, 'Frameworks/App.framework/Versions/A/Resources/flutter_assets');
-
-      addToOutput(workingDir);
     } else {
       walletApp = p.join(dir, 'data/flutter_assets/wallet/linux/wallet');
       configFile = p.join(dir, 'data/flutter_assets/config.json');
     }
 
     await Process.run("chmod", ["+x", walletApp]);
-    addToOutput('teste');
 
     daemon = await Process.start(
       walletApp,
@@ -159,6 +146,13 @@ class _MyHomePageState extends State<MyHomePage> {
     if (daemon != null) {
       daemon!.kill();
     }
+  }
+
+  void copyAsset(String asset, String to) async {
+    final data = await rootBundle.load(asset);
+    final bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    final buffer = await File(to).create(recursive: true);
+    buffer.writeAsBytesSync(bytes);
   }
 
   List<Widget> getText() {
