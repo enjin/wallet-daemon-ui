@@ -2,14 +2,85 @@ import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
+import 'package:download_assets/download_assets.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+class Onboard extends StatelessWidget {
+  const Onboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: OnBoardingSlider(
+        headerBackgroundColor: const Color(0xFFFAFAFA),
+        centerBackground: true,
+        finishButtonText: 'Start',
+        finishButtonStyle: const FinishButtonStyle(
+          backgroundColor: Color(0xFF7866D5),
+        ),
+        background: [
+          SvgPicture.asset('lib/assets/undraw_welcome.svg'),
+          SvgPicture.asset('lib/assets/undraw_synchronize.svg'),
+          SvgPicture.asset('lib/assets/undraw_launch.svg'),
+        ],
+        totalPage: 3,
+        speed: 1.8,
+        onFinish: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MainScreen(),
+            ),
+          );
+        },
+        pageBodies: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                'Welcome to Enjin Wallet Daemon',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              SizedBox(
+                height: 6,
+              ),
+              Text('First, we need to setup a few things before you start'),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                'Welcome to Enjin Wallet Daemon',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              SizedBox(
+                height: 6,
+              ),
+              Text('First, we need to setup a few things before you start'),
+            ],
+          ),
+          Container(),
+        ],
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -23,21 +94,33 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            fontFamily: "Hauora",
+            color: Color(0xFF434A60),
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ),
       home: const MyHomePage(title: 'Enjin Wallet Daemon'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainScreenState extends State<MainScreen> {
+  DownloadAssetsController downloadAssetsController =
+      DownloadAssetsController();
+  bool downloaded = false;
+  double value = 0.0;
+
   final TextEditingController _enjinMatrixKey = TextEditingController();
   final TextEditingController _canaryMatrixKey = TextEditingController();
   final TextEditingController _walletPassword = TextEditingController();
@@ -48,11 +131,42 @@ class _MyHomePageState extends State<MyHomePage> {
     'canary-matrix': '',
   };
 
+  Future _init() async {
+    await downloadAssetsController.init(
+      assetDir: (await getApplicationSupportDirectory()).path,
+      useFullDirectoryPath: true,
+    );
+
+    downloaded = await downloadAssetsController.assetsDirAlreadyExists();
+  }
+
   String walletPassword = '';
 
   List<String> output = [];
   Process? daemon;
   String walletAddress = '';
+
+  void _downloadDaemon() async {
+    await downloadAssetsController.startDownload(
+      onCancel: () {
+        //TODO: implement cancel here
+      },
+      assetsUrls: [
+        'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-apple-darwin.zip',
+        'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-pc-windows-gnu.zip',
+        'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-unknown-linux-musl.zip',
+      ],
+      onProgress: (progressValue) {
+        print(progressValue);
+
+        setState(() {
+          value = progressValue;
+        });
+      },
+    );
+
+    print(downloadAssetsController.assetsDir);
+  }
 
   void setConfig() {
     final configs = {
@@ -113,7 +227,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //todo: if the binary already exists, don't copy it
       copyAsset('wallet/$walletExe', walletApp);
       copyAsset('config.json', configFile);
-
     } else {
       walletApp = p.join(dir, 'data/flutter_assets/wallet/linux/wallet');
       configFile = p.join(dir, 'data/flutter_assets/config.json');
@@ -150,7 +263,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void copyAsset(String asset, String to) async {
     final data = await rootBundle.load(asset);
-    final bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    final bytes =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     final buffer = await File(to).create(recursive: true);
     buffer.writeAsBytesSync(bytes);
   }
@@ -381,6 +495,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     loadData();
+    _init();
   }
 
   @override
@@ -397,143 +512,204 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  DropdownMenu<String>(
-                    initialSelection: currentNetwork,
-                    onSelected: (String? value) {
-                      currentNetwork = value!;
-                      setCurrentNetwork();
-                      stopWallet();
-                      setConfig();
-                    },
-                    dropdownMenuEntries: [
-                      DropdownMenuEntry<String>(
-                        value: 'enjin-matrix',
-                        label: 'Enjin Matrix',
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 70,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 10,
                       ),
-                      DropdownMenuEntry<String>(
-                        value: 'canary-matrix',
-                        label: 'Canary Matrix',
+                      DropdownMenu<String>(
+                        initialSelection: currentNetwork,
+                        onSelected: (String? value) {
+                          currentNetwork = value!;
+                          setCurrentNetwork();
+                          stopWallet();
+                          setConfig();
+                        },
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry<String>(
+                            value: 'enjin-matrix',
+                            label: 'Enjin Matrix',
+                          ),
+                          DropdownMenuEntry<String>(
+                            value: 'canary-matrix',
+                            label: 'Canary Matrix',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      if (walletAddress != '')
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Wallet Address',
+                              style: TextStyle(
+                                color: Color(0xFF434A60),
+                                fontSize: 12,
+                                fontFamily: 'Hauora',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              walletAddress,
+                              style: TextStyle(
+                                color: Color(0xFF858997),
+                                fontSize: 13,
+                                fontFamily: 'Hauora',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      Spacer(),
+                      MaterialButton(
+                        onPressed: () => runWallet(),
+                        height: 48,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        color: Color(0xFF7866D5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          "Start",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MaterialButton(
+                        onPressed: () => stopWallet(),
+                        height: 48,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        color: Color(0xFF7866D5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          "Stop",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      MaterialButton(
+                        onPressed: _showConfigDialog,
+                        height: 48,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        color: Color(0xFF7866D5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          "Configs",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  if (walletAddress != '')
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Wallet Address',
-                          style: TextStyle(
-                            color: Color(0xFF434A60),
-                            fontSize: 12,
-                            fontFamily: 'Hauora',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          walletAddress,
-                          style: TextStyle(
-                            color: Color(0xFF858997),
-                            fontSize: 13,
-                            fontFamily: 'Hauora',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  Spacer(),
-                  MaterialButton(
-                    onPressed: () => runWallet(),
-                    height: 48,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    color: Color(0xFF7866D5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      "Start",
-                      style: TextStyle(color: Colors.white),
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.black,
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        left: 10,
+                        right: 10,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: getText(),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  MaterialButton(
-                    onPressed: () => stopWallet(),
-                    height: 48,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    color: Color(0xFF7866D5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      "Stop",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  MaterialButton(
-                    onPressed: _showConfigDialog,
-                    height: 48,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    color: Color(0xFF7866D5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      "Configs",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
-            Expanded(
-              child: Container(
-                color: Colors.black,
-                width: double.infinity,
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.only(
-                    top: 10,
-                    left: 10,
-                    right: 10,
+          ),
+          Container(
+            color: Colors.white,
+            height: 300,
+            width: 300,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Image.asset('lib/assets/enjin.png'),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                    'We need to fetch the latest version of Enjin Wallet Daemon service. Click below to start the download.'),
+                Spacer(),
+                CircularProgressIndicator(),
+                Spacer(),
+                MaterialButton(
+                  onPressed: () => _downloadDaemon(),
+                  height: 48,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  color: Color(0xFF7866D5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: getText(),
+                  child: Text(
+                    "Download",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-              ),
-            )
-          ],
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Onboard();
   }
 }
