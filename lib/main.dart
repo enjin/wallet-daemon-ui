@@ -24,14 +24,23 @@ class Onboard extends StatelessWidget {
       body: OnBoardingSlider(
         headerBackgroundColor: const Color(0xFFFAFAFA),
         centerBackground: true,
-        finishButtonText: 'Start',
+        finishButtonText: 'Launch',
         finishButtonStyle: const FinishButtonStyle(
           backgroundColor: Color(0xFF7866D5),
         ),
         background: [
-          SvgPicture.asset('lib/assets/undraw_welcome.svg'),
-          SvgPicture.asset('lib/assets/undraw_synchronize.svg'),
-          SvgPicture.asset('lib/assets/undraw_launch.svg'),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: SvgPicture.asset('lib/assets/undraw_welcome.svg'),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: SvgPicture.asset('lib/assets/undraw_synchronize.svg'),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: SvgPicture.asset('lib/assets/undraw_launch.svg'),
+          ),
         ],
         totalPage: 3,
         speed: 1.8,
@@ -48,7 +57,7 @@ class Onboard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Text(
-                'Welcome to Enjin Wallet Daemon',
+                'Welcome to Enjin Platform',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
@@ -57,23 +66,19 @@ class Onboard extends StatelessWidget {
               SizedBox(
                 height: 6,
               ),
-              Text('First, we need to setup a few things before you start'),
+              Text('The best blockchain platform built for game developers'),
             ],
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Text(
-                'Welcome to Enjin Wallet Daemon',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
               SizedBox(
                 height: 6,
               ),
-              Text('First, we need to setup a few things before you start'),
+              Text(
+                'This application is a wallet daemon that connects to the platform\nallowing transactions to be signed automatically for you.',
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
           Container(),
@@ -137,7 +142,11 @@ class _MainScreenState extends State<MainScreen> {
       useFullDirectoryPath: true,
     );
 
-    downloaded = await downloadAssetsController.assetsDirAlreadyExists();
+    bool hasWallet = await downloadAssetsController.assetsFileExists('wallet');
+
+    setState(() {
+      downloaded = hasWallet;
+    });
   }
 
   String walletPassword = '';
@@ -147,15 +156,25 @@ class _MainScreenState extends State<MainScreen> {
   String walletAddress = '';
 
   void _downloadDaemon() async {
+    final String system = Platform.operatingSystem;
+    String assetUrl = '';
+
+    if (system == 'macos') {
+      assetUrl =
+          'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-apple-darwin.zip';
+    } else if (system == 'windows') {
+      assetUrl =
+          'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-pc-windows-gnu.zip';
+    } else {
+      assetUrl =
+          'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-unknown-linux-musl.zip';
+    }
+
     await downloadAssetsController.startDownload(
       onCancel: () {
         //TODO: implement cancel here
       },
-      assetsUrls: [
-        'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-apple-darwin.zip',
-        'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-pc-windows-gnu.zip',
-        'https://github.com/enjin/wallet-daemon/releases/download/v1.0.0-beta.5/wallet-daemon_v1.0.0-beta.5_x86_64-unknown-linux-musl.zip',
-      ],
+      assetsUrls: [assetUrl],
       onProgress: (progressValue) {
         print(progressValue);
 
@@ -166,9 +185,17 @@ class _MainScreenState extends State<MainScreen> {
     );
 
     print(downloadAssetsController.assetsDir);
+
+    final directory = await getApplicationSupportDirectory();
+    String configFile = '${directory.path}/config.json';
+    copyAsset('config.json', configFile);
+
+    setState(() {
+      downloaded = true;
+    });
   }
 
-  void setConfig() {
+  void setConfig() async {
     final configs = {
       'enjin-matrix': {
         "node": "wss://rpc.matrix.blockchain.enjin.io:443",
@@ -184,7 +211,9 @@ class _MainScreenState extends State<MainScreen> {
 
     final config = configs[currentNetwork];
     final configJson = jsonEncode(config);
-    File('config.json').writeAsStringSync(configJson);
+
+    final directory = await getApplicationSupportDirectory();
+    File(p.join(directory.path, 'config.json')).writeAsStringSync(configJson);
   }
 
   void addToOutput(String otp) {
@@ -206,34 +235,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void runWallet() async {
-    String dir = Directory.current.path;
-
-    final String system = Platform.operatingSystem;
-    String walletApp = '';
-    String configFile = '';
-    String workingDir = '';
-
-    if (system == 'macos') {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      String walletExe = (await deviceInfo.macOsInfo).arch == 'arm64'
-          ? 'macos-apple/wallet'
-          : 'macos-intel/wallet';
-
-      final directory = await getApplicationSupportDirectory();
-      workingDir = '${directory.path}/wallet-ui';
-      walletApp = '$workingDir/wallet';
-      configFile = '$workingDir/config.json';
-
-      //todo: if the binary already exists, don't copy it
-      copyAsset('wallet/$walletExe', walletApp);
-      copyAsset('config.json', configFile);
-    } else {
-      walletApp = p.join(dir, 'data/flutter_assets/wallet/linux/wallet');
-      configFile = p.join(dir, 'data/flutter_assets/config.json');
-    }
+    final directory = await getApplicationSupportDirectory();
+    String workingDir = directory.path;
+    String walletApp = '$workingDir/wallet';
+    String configFile = '$workingDir/config.json';
 
     await Process.run("chmod", ["+x", walletApp]);
-
     daemon = await Process.start(
       walletApp,
       [],
@@ -652,47 +659,46 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          Container(
-            color: Colors.white,
-            height: 300,
-            width: 300,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Image.asset('lib/assets/enjin.png'),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                    'We need to fetch the latest version of Enjin Wallet Daemon service. Click below to start the download.'),
-                Spacer(),
-                CircularProgressIndicator(),
-                Spacer(),
-                MaterialButton(
-                  onPressed: () => _downloadDaemon(),
-                  height: 48,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  color: Color(0xFF7866D5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+          if (!downloaded)
+            Container(
+              height: 300,
+              width: 300,
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset('lib/assets/enjin.png'),
+                  SizedBox(
+                    height: 20,
                   ),
-                  child: Text(
-                    "Download",
-                    style: TextStyle(color: Colors.white),
+                  Text(
+                      'We need to fetch the latest version of Enjin Wallet Daemon service. Click below to start the download.'),
+                  Spacer(),
+                  if (value != 0 && value != 100) CircularProgressIndicator(),
+                  Spacer(),
+                  MaterialButton(
+                    onPressed: () => _downloadDaemon(),
+                    height: 48,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    color: Color(0xFF7866D5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      "Download",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
