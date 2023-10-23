@@ -520,21 +520,25 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFF7866D5),
         automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 30,
-              child: Image.asset('lib/assets/White.png'),
+        title: WindowTitleBarBox(
+          child: MoveWindow(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 30,
+                  child: Image.asset('lib/assets/White.png'),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Text(
+                  'Wallet Daemon',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 16,
-            ),
-            Text(
-              'Wallet Daemon',
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
+          ),
         ),
       ),
       body: Stack(
