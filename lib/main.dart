@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
@@ -10,9 +10,18 @@ import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
 import 'package:download_assets/download_assets.dart';
+import 'package:xterm/xterm.dart';
 
 void main() {
   runApp(const MyApp());
+
+  doWhenWindowReady(() {
+    const initialSize = Size(1000, 800);
+    appWindow.minSize = initialSize;
+    appWindow.size = initialSize;
+    appWindow.alignment = Alignment.center;
+    appWindow.show();
+  });
 }
 
 class Onboard extends StatelessWidget {
@@ -121,6 +130,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  Terminal terminal = Terminal();
+  TerminalController terminalController = TerminalController();
+
   DownloadAssetsController downloadAssetsController =
       DownloadAssetsController();
   bool downloaded = false;
@@ -229,9 +241,8 @@ class _MainScreenState extends State<MainScreen> {
       }
     }
 
-    setState(() {
-      output.add(otp);
-    });
+    terminal.write(otp);
+    terminal.nextLine();
   }
 
   void runWallet() async {
@@ -257,9 +268,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void stopWallet() {
-    // Should probably not clear // make an option later to clear
     setState(() {
-      output = [];
       walletAddress = '';
     });
 
@@ -510,154 +519,147 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF7866D5),
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 8, bottom: 8, left: 10, right: 0),
-          child: Image.asset('lib/assets/White.png'),
-        ),
-        title: Text(
-          'Wallet Daemon',
-          style: TextStyle(color: Colors.white),
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 30,
+              child: Image.asset('lib/assets/White.png'),
+            ),
+            SizedBox(
+              width: 16,
+            ),
+            Text(
+              'Wallet Daemon',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
         ),
       ),
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 70,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      DropdownMenu<String>(
-                        initialSelection: currentNetwork,
-                        onSelected: (String? value) {
-                          currentNetwork = value!;
-                          setCurrentNetwork();
-                          stopWallet();
-                          setConfig();
-                        },
-                        dropdownMenuEntries: [
-                          DropdownMenuEntry<String>(
-                            value: 'enjin-matrix',
-                            label: 'Enjin Matrix',
+          Column(
+            children: [
+              SizedBox(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    DropdownMenu<String>(
+                      initialSelection: currentNetwork,
+                      onSelected: (String? value) {
+                        currentNetwork = value!;
+                        setCurrentNetwork();
+                        stopWallet();
+                        setConfig();
+                      },
+                      dropdownMenuEntries: [
+                        DropdownMenuEntry<String>(
+                          value: 'enjin-matrix',
+                          label: 'Enjin Matrix',
+                        ),
+                        DropdownMenuEntry<String>(
+                          value: 'canary-matrix',
+                          label: 'Canary Matrix',
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    if (walletAddress != '')
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Wallet Address',
+                            style: TextStyle(
+                              color: Color(0xFF434A60),
+                              fontSize: 12,
+                              fontFamily: 'Hauora',
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                          DropdownMenuEntry<String>(
-                            value: 'canary-matrix',
-                            label: 'Canary Matrix',
+                          Text(
+                            walletAddress,
+                            style: TextStyle(
+                              color: Color(0xFF858997),
+                              fontSize: 13,
+                              fontFamily: 'Hauora',
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: 10,
+                    Spacer(),
+                    MaterialButton(
+                      onPressed: () => runWallet(),
+                      height: 48,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      color: Color(0xFF7866D5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      if (walletAddress != '')
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Wallet Address',
-                              style: TextStyle(
-                                color: Color(0xFF434A60),
-                                fontSize: 12,
-                                fontFamily: 'Hauora',
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              walletAddress,
-                              style: TextStyle(
-                                color: Color(0xFF858997),
-                                fontSize: 13,
-                                fontFamily: 'Hauora',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      Spacer(),
-                      MaterialButton(
-                        onPressed: () => runWallet(),
-                        height: 48,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        color: Color(0xFF7866D5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          "Start",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      MaterialButton(
-                        onPressed: () => stopWallet(),
-                        height: 48,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        color: Color(0xFF7866D5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          "Stop",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      MaterialButton(
-                        onPressed: _showConfigDialog,
-                        height: 48,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        color: Color(0xFF7866D5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          "Configs",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    color: Colors.black,
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      padding: EdgeInsets.only(
-                        top: 10,
-                        left: 10,
-                        right: 10,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: getText(),
+                      child: Text(
+                        "Start",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  ),
-                )
-              ],
-            ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    MaterialButton(
+                      onPressed: () => stopWallet(),
+                      height: 48,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      color: Color(0xFF7866D5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        "Stop",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    MaterialButton(
+                      onPressed: _showConfigDialog,
+                      height: 48,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      color: Color(0xFF7866D5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        "Configs",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: TerminalView(
+                  terminal,
+                  padding: const EdgeInsets.only(top: 10),
+                  readOnly: true,
+                ),
+              )
+            ],
           ),
           if (!downloaded)
             Container(
