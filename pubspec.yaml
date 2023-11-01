@@ -1,0 +1,68 @@
+name: enjin_wallet_daemon
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  uuid: ^4.1.0
+  path: ^1.8.3
+  path_provider: ^2.1.1
+  download_assets: ^3.1.1
+  flutter_svg: ^2.0.7
+  xterm: ^3.5.0
+  beamer: ^1.5.6
+  loading_animation_widget: ^1.2.0+4
+  dio: ^5.3.3
+  convert: ^3.1.1
+  lottie: ^2.7.0
+  sembast: ^3.5.0+1
+  encrypt: ^5.0.0
+  crypto: ^3.0.0
+  get_it: ^7.6.4
+  smooth_page_indicator: ^1.1.0
+  window_manager: ^0.3.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  image_path: "lib/assets/enjin_logo.png"
+  windows:
+    generate: true
+    icon_size: 256
+  macos:
+    generate: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - lib/assets/
+    - lib/fonts/
+    - config.json
+
+  fonts:
+    - family: Hauora
+      fonts:
+         - asset: lib/fonts/Hauora-Bold.ttf
+           weight: 700
+         - asset: lib/fonts/Hauora-ExtraBold.ttf
+           weight: 800
+         - asset: lib/fonts/Hauora-ExtraLight.ttf
+           weight: 200
+         - asset: lib/fonts/Hauora-Light.ttf
+           weight: 300
+         - asset: lib/fonts/Hauora-Medium.ttf
+           weight: 500
+         - asset: lib/fonts/Hauora-Regular.ttf
+           weight: 400
+         - asset: lib/fonts/Hauora-SemiBold.ttf
+           weight: 600
