@@ -48,7 +48,7 @@ If you are self-hosting an Enjin Platform, you can input its URL and credentials
 
 - **Platform Endpoint**: You need to input the `graphql` endpoint of your platform.
 - **Authentication Token**: The token that you use to access it. If you are using our [starter repository](https://github.com/enjin/platform) this token (`BASIC_AUTH_TOKEN`) can be found [here](https://github.com/enjin/platform/blob/master/configs/core/.env#L9), it will be auto generated after you first start the platform.
-- **Blockchain Node**: That's the RPC url to a node, it needs to be a websocket url and you need to include the port. Example: wss://rpc.matrix.blockchain.enjin.io:443
+- **Blockchain Node**: That's the RPC url to a node, it needs to be a websocket url and you need to include the port. Example: you can use `wss://rpc.matrix.blockchain.enjin.io:443` for Enjin Blockchain and `wss://rpc.matrix.canary.enjin.io:443` for Canary Blockchain.
 
 ## Locking
 
