@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:beamer/beamer.dart';
 import 'package:enjin_wallet_daemon/screens/loading_screen.dart';
@@ -9,6 +8,7 @@ import 'package:enjin_wallet_daemon/services/daemon_service.dart';
 import 'package:enjin_wallet_daemon/services/store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:onboarding_overlay/onboarding_overlay.dart';
 import 'package:window_manager/window_manager.dart';
 
 final getIt = GetIt.instance;
@@ -43,6 +43,18 @@ class EnjinApp extends StatelessWidget {
     locationBuilder: RoutesLocationBuilder(
       routes: {
         '/': (context, state, data) => const LoadingScreen(),
+        '/first_main': (context, state, data) => Onboarding(
+              key: GlobalKey<OnboardingState>(),
+              steps: [
+                OnboardingStep(
+                  focusNode: getIt.get<StoreService>().focusNode,
+                  titleText: "Welcome to Enjin Wallet Daemon",
+                  bodyText:
+                      "First, click in the \"Start\" button so we can make the initial setup.",
+                )
+              ],
+              child: const MainScreen(),
+            ),
         '/main': (context, state, data) => const MainScreen(),
         '/lock': (context, state, data) => const LockScreen(),
         '/onboard': (context, state, data) => const OnboardScreen(),

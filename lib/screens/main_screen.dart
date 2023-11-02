@@ -2,6 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:enjin_wallet_daemon/main.dart';
 import 'package:enjin_wallet_daemon/services/daemon_service.dart';
 import 'package:flutter/material.dart';
+import 'package:onboarding_overlay/onboarding_overlay.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'dart:io';
@@ -26,7 +27,8 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
 
   final TextEditingController _walletSeed =
       TextEditingController(text: const UuidV4().generate());
-  final TextEditingController _walletPassword = TextEditingController();
+  final TextEditingController _walletPassword =
+      TextEditingController(text: const UuidV4().generate());
   final TextEditingController _walletAddress = TextEditingController();
 
   final FocusNode _selectNetwork = FocusNode();
@@ -111,7 +113,7 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     return await store.record('enjin.daemon.seed').get(db) as String?;
   }
 
-  Future<void> loadSeed() async {
+  Future<bool> loadSeed() async {
     final String? seed =
         await store.record('enjin.daemon.seed').get(db) as String?;
 
@@ -125,7 +127,11 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
 
       final file = File(p.join(storePath, storeFile));
       file.writeAsStringSync(seed);
+
+      return true;
     }
+
+    return false;
   }
 
   void checkIsRunning() {
@@ -135,6 +141,10 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<void> runWallet() async {
+    if (walletPassword == '') {
+      await setupStart();
+    }
+
     if (isRunning) {
       return;
     }
@@ -157,7 +167,8 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     String walletApp = '$workingDir/wallet';
     String configFile = '$workingDir/config.json';
 
-    await loadSeed();
+    final hasSeed = await loadSeed();
+
     await getIt.get<DaemonService>().runWallet(
           walletApp: walletApp,
           walletPassword: walletPassword,
@@ -430,6 +441,12 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                       ),
                       MaterialButton(
                         onPressed: () {
+                          if (_isPasswordObscure == true) {
+                            _walletPassword.text = walletPassword;
+                          } else {
+                            _walletPassword.text = (const UuidV4()).generate();
+                          }
+
                           setState(() {
                             _isPasswordObscure = !_isPasswordObscure;
                           });
@@ -678,23 +695,21 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     );
   }
 
+  Future<void> randomWalletPassword() async {
+    final uuid = const Uuid().v4();
+    await setWalletPassword(uuid);
+  }
+
+  Future<void> setWalletPassword(String password) async {
+    await store.record('enjin.wallet.password').put(db, password);
+    walletPassword = password;
+  }
+
   void loadData() async {
     final String? password =
         await store.record('enjin.wallet.password').get(db) as String?;
-    final String? enjinMatrixKey =
-        await store.record('enjin.matrix.api.key').get(db) as String?;
-    final String? enjinCanaryKey =
-        await store.record('enjin.canary.api.key').get(db) as String?;
     final String? selectedNetwork =
         await store.record('enjin.current.platform').get(db) as String?;
-
-    if (password == null) {
-      final uuid = const Uuid().v4();
-      await store.record('enjin.wallet.password').put(db, uuid);
-
-      walletPassword = uuid;
-      _walletPassword.text = uuid;
-    }
 
     checkIsRunning();
 
@@ -707,8 +722,7 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     }
 
     setState(() {
-      walletPassword = password ?? walletPassword;
-      _walletPassword.text = walletPassword;
+      walletPassword = password ?? '';
       currentNetwork = selectedNetwork ?? 'enjin-matrix';
     });
   }
@@ -730,6 +744,15 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     loadData();
+
+    try {
+      final OnboardingState? onboarding = Onboarding.of(context);
+      if (onboarding != null) {
+        WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+          onboarding.show();
+        });
+      }
+    } catch (_) {}
   }
 
   @override
@@ -937,6 +960,169 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     Beamer.of(context).beamToNamed('/lock');
   }
 
+  Future<void> setupStart() async {
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController repeatController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) => SimpleDialog(
+            title: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Wallet Password'),
+              ],
+            ),
+            contentPadding:
+                const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 10),
+            children: <Widget>[
+              const Text(
+                'To start we need to generate a wallet for your daemon.\nFor extra security, we use a password key to derive it.\nYou can set your own password or we can generate one for you.',
+                textAlign: TextAlign.justify,
+              ),
+// https://wiki.polkadot.network/docs/learn-account-advanced#derivation-paths
+              const SizedBox(
+                height: 24,
+              ),
+              const Text(
+                'Set your password',
+                style: TextStyle(
+                  color: Color(0xFF434A60),
+                  fontSize: 12,
+                  fontFamily: 'Hauora',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 360,
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  onChanged: (text) {
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                    errorText: passwordController.text.length < 8 &&
+                            passwordController.text != ''
+                        ? 'Password must be at least 8 characters long'
+                        : null,
+                    contentPadding: const EdgeInsets.only(left: 10, right: 10),
+                    hintText: 'Input a password',
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFF7567CE),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              const Text(
+                'Repeat the password',
+                style: TextStyle(
+                  color: Color(0xFF434A60),
+                  fontSize: 12,
+                  fontFamily: 'Hauora',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 380,
+                child: TextField(
+                  controller: repeatController,
+                  obscureText: true,
+                  onChanged: (text) => setState(() {}),
+                  decoration: InputDecoration(
+                    errorText: repeatController.text != '' &&
+                            repeatController.text != passwordController.text
+                        ? 'Passwords do not match'
+                        : null,
+                    contentPadding: const EdgeInsets.only(left: 10, right: 10),
+                    hintText: 'Repeat the password',
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFF7567CE),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Opacity(
+                    opacity: passwordController.text.length < 8 ||
+                            repeatController.text != passwordController.text
+                        ? 0.5
+                        : 1,
+                    child: MaterialButton(
+                      onPressed: () async {
+                        if (passwordController.text == repeatController.text &&
+                            passwordController.text.length >= 8) {
+                          await setWalletPassword(passwordController.text);
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      height: 48,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      color: const Color(0xFF7866D5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        "Confirm",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  MaterialButton(
+                    onPressed: () async {
+                      await randomWalletPassword();
+                      Navigator.pop(context);
+                    },
+                    height: 48,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    color: const Color(0xFF7866D5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      "Auto-generate",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1075,6 +1261,7 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                 Opacity(
                   opacity: isRunning ? 0.5 : 1,
                   child: MaterialButton(
+                    focusNode: getIt.get<StoreService>().focusNode,
                     onPressed: () => runWallet(),
                     height: 48,
                     padding: const EdgeInsets.symmetric(

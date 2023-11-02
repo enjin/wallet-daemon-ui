@@ -40,7 +40,7 @@ class _LockScreenState extends State<LockScreen> with WindowListener {
         await getIt.get<StoreService>().init(_passwordController.text);
 
     if (hasAccess) {
-      Beamer.of(context).beamToReplacementNamed('/main');
+      Beamer.of(context).beamToReplacementNamed('/main', data: 'from_lock');
     }
 
     setState(() {

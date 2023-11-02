@@ -27,6 +27,7 @@ dependencies:
   get_it: ^7.6.4
   smooth_page_indicator: ^1.1.0
   window_manager: ^0.3.7
+  onboarding_overlay: ^3.2.1
 
 dev_dependencies:
   flutter_test:

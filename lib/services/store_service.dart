@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
@@ -9,6 +10,7 @@ import 'encrypted_database_factory.dart';
 import 'package:path/path.dart' as p;
 
 class StoreService {
+  final FocusNode focusNode = FocusNode();
   late Database db;
 
   Future<bool> init(String password) async {

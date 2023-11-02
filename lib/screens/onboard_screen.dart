@@ -188,7 +188,8 @@ class _OnboardScreenState extends State<OnboardScreen> {
                         final store = getIt.get<StoreService>();
                         await store.init(passwordController.text);
 
-                        Beamer.of(context).beamToReplacementNamed('/main');
+                        Beamer.of(context)
+                            .beamToReplacementNamed('/first_main');
 
                         return;
                       }
