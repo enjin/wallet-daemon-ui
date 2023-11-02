@@ -11,7 +11,14 @@ import 'package:path/path.dart' as p;
 
 class StoreService {
   final FocusNode focusNode = FocusNode();
-  late Database db;
+  Database? db;
+
+  Future<void> close() async {
+    if (db != null) {
+      await db!.close();
+      db = null;
+    }
+  }
 
   Future<bool> init(String password) async {
     try {

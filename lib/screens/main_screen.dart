@@ -34,7 +34,6 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   final FocusNode _selectNetwork = FocusNode();
 
   final StoreRef store = StoreRef.main();
-  final Database db = getIt.get<StoreService>().db;
 
   String currentNetwork = 'enjin-matrix';
   String walletPassword = '';
@@ -65,8 +64,12 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<void> saveSeed(String seed, String storeName) async {
-    await store.record('enjin.daemon.seed').put(db, seed);
-    await store.record('enjin.daemon.store').put(db, storeName);
+    await store
+        .record('enjin.daemon.seed')
+        .put(getIt.get<StoreService>().db!, seed);
+    await store
+        .record('enjin.daemon.store')
+        .put(getIt.get<StoreService>().db!, storeName);
   }
 
   Future<void> saveStoreFile() async {
@@ -110,15 +113,19 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<String?> getPlainSeed() async {
-    return await store.record('enjin.daemon.seed').get(db) as String?;
+    return await store
+        .record('enjin.daemon.seed')
+        .get(getIt.get<StoreService>().db!) as String?;
   }
 
   Future<bool> loadSeed() async {
-    final String? seed =
-        await store.record('enjin.daemon.seed').get(db) as String?;
+    final String? seed = await store
+        .record('enjin.daemon.seed')
+        .get(getIt.get<StoreService>().db!) as String?;
 
-    final String? storeFile =
-        await store.record('enjin.daemon.store').get(db) as String?;
+    final String? storeFile = await store
+        .record('enjin.daemon.store')
+        .get(getIt.get<StoreService>().db!) as String?;
 
     if (seed != null && storeFile != null) {
       final dir = await getApplicationSupportDirectory();
@@ -152,14 +159,20 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     String platformKey = '';
 
     if (currentNetwork == 'enjin-matrix') {
-      platformKey =
-          await store.record('enjin.matrix.api.key').get(db) as String? ?? '';
+      platformKey = await store
+              .record('enjin.matrix.api.key')
+              .get(getIt.get<StoreService>().db!) as String? ??
+          '';
     } else if (currentNetwork == 'canary-matrix') {
-      platformKey =
-          await store.record('enjin.canary.api.key').get(db) as String? ?? '';
+      platformKey = await store
+              .record('enjin.canary.api.key')
+              .get(getIt.get<StoreService>().db!) as String? ??
+          '';
     } else {
-      platformKey =
-          await store.record('enjin.custom.api.key').get(db) as String? ?? '';
+      platformKey = await store
+              .record('enjin.custom.api.key')
+              .get(getIt.get<StoreService>().db!) as String? ??
+          '';
     }
 
     final directory = await getApplicationSupportDirectory();
@@ -216,23 +229,37 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<void> setPlatformConfig(String node, String api, String token) async {
-    await store.record('enjin.custom.api.key').put(db, token);
-    await store.record('enjin.custom.api.url').put(db, api);
-    await store.record('enjin.custom.node.url').put(db, node);
+    await store
+        .record('enjin.custom.api.key')
+        .put(getIt.get<StoreService>().db!, token);
+    await store
+        .record('enjin.custom.api.url')
+        .put(getIt.get<StoreService>().db!, api);
+    await store
+        .record('enjin.custom.node.url')
+        .put(getIt.get<StoreService>().db!, node);
 
     await setDaemonConfigFile(api, node);
   }
 
   Future<void> setDefaultAuthKeys(String authEnjin, String authCanary) async {
-    await store.record('enjin.matrix.api.key').put(db, authEnjin);
-    await store.record('enjin.canary.api.key').put(db, authCanary);
+    await store
+        .record('enjin.matrix.api.key')
+        .put(getIt.get<StoreService>().db!, authEnjin);
+    await store
+        .record('enjin.canary.api.key')
+        .put(getIt.get<StoreService>().db!, authCanary);
   }
 
   Future<void> _showConfigDialog(BuildContext context) async {
-    final String enjinKey =
-        await store.record('enjin.matrix.api.key').get(db) as String? ?? '';
-    final String canaryKey =
-        await store.record('enjin.canary.api.key').get(db) as String? ?? '';
+    final String enjinKey = await store
+            .record('enjin.matrix.api.key')
+            .get(getIt.get<StoreService>().db!) as String? ??
+        '';
+    final String canaryKey = await store
+            .record('enjin.canary.api.key')
+            .get(getIt.get<StoreService>().db!) as String? ??
+        '';
 
     final TextEditingController enjinMatrixKey =
         TextEditingController(text: enjinKey);
@@ -368,20 +395,23 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                       MaterialButton(
                         onPressed: () async {
                           if (_isSeedObscure == true) {
-                            String? seed = await getPlainSeed();
-                            if (seed == null) {
-                              showAlert(context);
+                            bool seedExists = await store
+                                .record('enjin.daemon.seed')
+                                .exists(getIt.get<StoreService>().db!);
+
+                            if (!seedExists) {
+                              await showAlert(context);
                               return;
                             }
 
-                            _walletSeed.text = seed.replaceAll("\"", "");
+                            await showAlertViewSeed(context);
+                            setState(() {});
                           } else {
-                            _walletSeed.text = (const UuidV4()).generate();
+                            setState(() {
+                              _walletSeed.text = (const UuidV4()).generate();
+                              _isSeedObscure = true;
+                            });
                           }
-
-                          setState(() {
-                            _isSeedObscure = !_isSeedObscure;
-                          });
                         },
                         elevation: 0,
                         color: const Color(0xFF7866D5),
@@ -440,16 +470,22 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                         width: 10,
                       ),
                       MaterialButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_isPasswordObscure == true) {
-                            _walletPassword.text = walletPassword;
-                          } else {
-                            _walletPassword.text = (const UuidV4()).generate();
-                          }
+                            if (walletPassword == '') {
+                              showAlert(context);
+                              return;
+                            }
 
-                          setState(() {
-                            _isPasswordObscure = !_isPasswordObscure;
-                          });
+                            await showAlertViewSeed(context);
+                            setState(() {});
+                          } else {
+                            setState(() {
+                              _walletPassword.text =
+                                  (const UuidV4()).generate();
+                              _isPasswordObscure = true;
+                            });
+                          }
                         },
                         elevation: 0,
                         color: const Color(0xFF7866D5),
@@ -517,12 +553,18 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<void> _showCustomPlatformDialog() async {
-    final String apiToken =
-        await store.record('enjin.custom.api.key').get(db) as String? ?? '';
-    final String apiUrl =
-        await store.record('enjin.custom.api.url').get(db) as String? ?? '';
-    final String nodeUrl =
-        await store.record('enjin.custom.node.url').get(db) as String? ?? '';
+    final String apiToken = await store
+            .record('enjin.custom.api.key')
+            .get(getIt.get<StoreService>().db!) as String? ??
+        '';
+    final String apiUrl = await store
+            .record('enjin.custom.api.url')
+            .get(getIt.get<StoreService>().db!) as String? ??
+        '';
+    final String nodeUrl = await store
+            .record('enjin.custom.node.url')
+            .get(getIt.get<StoreService>().db!) as String? ??
+        '';
 
     final TextEditingController platformEndpoint =
         TextEditingController(text: apiUrl);
@@ -701,15 +743,19 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<void> setWalletPassword(String password) async {
-    await store.record('enjin.wallet.password').put(db, password);
+    await store
+        .record('enjin.wallet.password')
+        .put(getIt.get<StoreService>().db!, password);
     walletPassword = password;
   }
 
   void loadData() async {
-    final String? password =
-        await store.record('enjin.wallet.password').get(db) as String?;
-    final String? selectedNetwork =
-        await store.record('enjin.current.platform').get(db) as String?;
+    final String? password = await store
+        .record('enjin.wallet.password')
+        .get(getIt.get<StoreService>().db!) as String?;
+    final String? selectedNetwork = await store
+        .record('enjin.current.platform')
+        .get(getIt.get<StoreService>().db!) as String?;
 
     checkIsRunning();
 
@@ -728,7 +774,9 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<void> setCurrentNetwork(String network) async {
-    await store.record('enjin.current.platform').put(db, network);
+    await store
+        .record('enjin.current.platform')
+        .put(getIt.get<StoreService>().db!, network);
 
     setState(() {
       currentNetwork = network;
@@ -736,7 +784,9 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   }
 
   Future<void> writeLockPassword(String password) async {
-    await store.record('enjin.lock.password').put(db, password);
+    await store
+        .record('enjin.lock.password')
+        .put(getIt.get<StoreService>().db!, password);
   }
 
   @override
@@ -955,8 +1005,83 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     );
   }
 
+  Future<void> showAlertViewSeed(BuildContext context) async {
+    final TextEditingController passwordController = TextEditingController();
+
+    return await showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Password Required'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('To view your seed phrase or wallet password'),
+                const Text('You need to input your Wallet Daemon UI password'),
+                const SizedBox(
+                  height: 24,
+                ),
+                SizedBox(
+                  width: 380,
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    onChanged: (text) => setState(() {}),
+                    decoration: InputDecoration(
+                      contentPadding:
+                          const EdgeInsets.only(left: 10, right: 10),
+                      hintText: 'Input your password',
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          width: 1,
+                          color: Color(0xFF7567CE),
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Confirm'),
+              onPressed: () async {
+                await getIt.get<StoreService>().close();
+                final bool hasAccess = await getIt
+                    .get<StoreService>()
+                    .init(passwordController.text);
+
+                if (!hasAccess) {
+                  Beamer.of(context).beamToReplacementNamed('/lock');
+                  return;
+                }
+
+                String? seed = await getPlainSeed();
+                _walletSeed.text = seed!.replaceAll("\"", "");
+                _walletPassword.text = walletPassword;
+                _isSeedObscure = false;
+                _isPasswordObscure = false;
+
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> lockScreen() async {
-    await getIt.get<StoreService>().db.close();
+    await getIt.get<StoreService>().close();
     Beamer.of(context).beamToNamed('/lock');
   }
 
@@ -1300,7 +1425,15 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                   width: 10,
                 ),
                 MaterialButton(
-                  onPressed: () => _showConfigDialog(context),
+                  onPressed: () async {
+                    await _showConfigDialog(context);
+                    setState(() {
+                      _walletPassword.text = const UuidV4().generate();
+                      _walletSeed.text = const UuidV4().generate();
+                      _isPasswordObscure = true;
+                      _isSeedObscure = true;
+                    });
+                  },
                   height: 48,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
