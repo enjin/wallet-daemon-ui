@@ -31,7 +31,7 @@ The Enjin Wallet Daemon UI is just a wrapper around our [Rust Daemon](https://gi
 > It is important that you **DO NOT LOSE** this password. There is absolutely no way to recover your information if you lose it.
 > Also, make sure you use a safe password and do not share with anyone.
 
-After you start the daemon for the first time a new random seed phrase will be generated to you. You can find your generate seed under `Configs >> Seed Phrase`.
+After you start the daemon for the first time, a new random seed phrase will be generated for you. You can find your generated seed under `Configs >> Seed Phrase`.
 The seed together with the password `Configs >> Password` are the information needed to import your daemon wallet anywhere.
 
 > [!NOTE]
