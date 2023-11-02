@@ -5,7 +5,7 @@
 [![Discord](https://img.shields.io/discord/783393889548501023)](https://discord.gg/EUKexwF5RM)
 [![Medium](https://img.shields.io/badge/Medium-gray?logo=medium)](https://medium.com/@enjin)
 
-This repository contains a flutter desktop application for macOS / Linux / Windows, it makes easier to run the [Enjin Wallet Daemon](https://github.com/enjin/wallet-daemon) for people that want to try out [Enjin Platform Cloud](https://platform.enjin.io). For a production environment we recommend to run the rust wallet daemon in a server.
+This repository contains a flutter desktop application for macOS / Linux / Windows. It makes it easier to run the [Enjin Wallet Daemon](https://github.com/enjin/wallet-daemon) for people that want to try out [Enjin Platform Cloud](https://platform.canary.enjin.io). For a production environment, we recommend that you run the Enjin Wallet Daemon on [an isolated server](https://docs.enjin.io/enjin-platform/getting-started/wallet-daemon#running-the-daemon-in-isolation).
 
 ## Build from source
 
