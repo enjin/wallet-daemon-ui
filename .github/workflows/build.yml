@@ -31,7 +31,7 @@ jobs:
           directory: build/linux/x64/release/bundle
 
       - name: Upload artifacts
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: EnjinWalletDaemon-${{github.ref_name}}-linux.zip
           path: build/linux/x64/release/bundle/EnjinWalletDaemon-${{github.ref_name}}-linux.zip
@@ -69,7 +69,7 @@ jobs:
           directory: build/windows/runner/Release
 
       - name: Upload artifacts
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: EnjinWalletDaemon-${{github.ref_name}}-windows.zip
           path: build/linux/x64/release/bundle/EnjinWalletDaemon-${{github.ref_name}}-windows.zip
@@ -107,7 +107,7 @@ jobs:
           directory: build/macos/Build/Products/Release
 
       - name: Upload artifacts
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: EnjinWalletDaemon-${{github.ref_name}}-macos.zip
           path: build/linux/x64/release/bundle/EnjinWalletDaemon-${{github.ref_name}}-macos.zip
