@@ -15,7 +15,7 @@ To build from source you need the following requirements:
 
 You can then clone the repository and run the application through flutter with:
 
-`flutter run <platform>` (macos, windows, linux)
+`flutter run <platform>`
 
 ## Binaries
 
