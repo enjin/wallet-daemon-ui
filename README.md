@@ -40,7 +40,7 @@ The seed phrase together with the password `Configs >> Password` is all of the i
 
 For your daemon to work with Enjin Platform Cloud you need to set up your Platform API keys into `Configs`. You may set one key for each of the environment: [Enjin Blockchain](https://platform.enjin.io) and [Canary Blockchain (testnet)](https://platform.canary.enjin.io).
 
-The Canary Matrixchain can be used for making tests without spending real money. There is also a faucet that you can use to get funds available here [Canary Faucet](https://faucet.canary.enjin.io/).
+The Canary Blockchain is a test network and can be used for making tests without spending real money. **It is strongly recommend that you start with the Canary Blockchain.** You can use the [Canary Faucet](https://faucet.canary.enjin.io/) to get some initial funds and get started.
 
 ## Self-hosted Platform
 
