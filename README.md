@@ -58,7 +58,7 @@ The password used here is what you have input in the onboard. **Remember** if yo
 
 ## Background service
 
-Since the UI is only a wrapper around our rust service, both application are run in separated processes. If you close the UI normally through the close button it will stop the service automatically. **BUT** if you force close it through the task manager or if it crashes for any reason, the daemon service may still keep running in the background.
+Since the UI is only a wrapper around the Enjin Wallet Daemon, both applications are run in separate processes. If you close the UI normally through the close button it will stop the service automatically. **BUT** if you force close it through the task manager or if it crashes for any reason, the daemon service may still keep running in the background.
 
 If you want to check if the service is still running you can search for the `wallet` process in the task manager.
 
