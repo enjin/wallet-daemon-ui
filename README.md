@@ -32,7 +32,7 @@ The Enjin Wallet Daemon UI is just a wrapper around the [Enjin Wallet Daemon](ht
 > Also, make sure you use a safe password and do not share with anyone.
 
 After you start the daemon for the first time, a new random seed phrase will be generated for you. You can find your generated seed under `Configs >> Seed Phrase`.
-The seed together with the password `Configs >> Password` are the information needed to import your daemon wallet anywhere.
+The seed phrase together with the password `Configs >> Password` is all of the information needed to import your daemon wallet anywhere.
 
 > [!NOTE]
 > Just the seed phrase is not enough to import or have access to your daemon wallet.
