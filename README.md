@@ -1,7 +1,7 @@
 # Enjin Wallet Daemon UI
 
 [![License: LGPL 3.0](https://img.shields.io/badge/license-LGPL_3.0-purple)](https://opensource.org/license/lgpl-3-0/)
-[![GitHub Release](https://img.shields.io/github/release/enjin/wallet-daemon-ui.svg?style=flat)]()
+[![GitHub Release](https://img.shields.io/github/release/enjin/wallet-daemon-ui.svg?style=flat)](https://github.com/enjin/wallet-daemon-ui/releases/latest)
 
 This repository contains a flutter desktop application for macOS / Linux / Windows. It makes it easier to run the [Enjin Wallet Daemon](https://github.com/enjin/wallet-daemon) for people that want to try out [Enjin Platform Cloud](https://platform.canary.enjin.io). For a production environment, we recommend that you run the Enjin Wallet Daemon on [an isolated server](https://docs.enjin.io/enjin-platform/getting-started/wallet-daemon#running-the-daemon-in-isolation).
 
