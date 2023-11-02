@@ -12,7 +12,6 @@ This repository contains a flutter desktop application for macOS / Linux / Windo
 To build from source you need the following requirements:
 
 - [Flutter](https://docs.flutter.dev/get-started/install)
-- Desktop (macOS / Linux / Windows)
 
 You can then clone the repository and run the application through flutter with:
 
