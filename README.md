@@ -24,7 +24,7 @@ Or you can download the [latest binaries](https://github.com/enjin/wallet-daemon
 
 ## Security
 
-The Enjin Wallet Daemon UI is just a wrapper around our [Rust Daemon](https://github.com/enjin/wallet-daemon) when you first start it, it will download the latest release of the daemon and ask to you a password.
+The Enjin Wallet Daemon UI is just a wrapper around the [Enjin Wallet Daemon](https://github.com/enjin/wallet-daemon). When you first start the application, it will download the latest release of the daemon and ask you for a password.
 
 > [!WARNING] 
 > We generate an encryption key with the password. This key will be used to encrypt the database that contains your **seed phrase**.
