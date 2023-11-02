@@ -44,7 +44,7 @@ The Canary Blockchain is a test network and can be used for making tests without
 
 ## Self-hosted Platform
 
-If you are self-hosting your Enjin Platform, you can input its URL and credentials at `Custom Endpoint`.
+If you are self-hosting an Enjin Platform, you can input its URL and credentials in the `Custom Endpoint` field.
 
 - **Platform Endpoint**: You need to input the `graphql` endpoint of your platform.
 - **Authentication Token**: The token that you use to access it. If you are using our [starter repository](https://github.com/enjin/platform) this token can be found [here](https://github.com/enjin/platform/blob/16586cc39888f39a900b2d90f0b0d9d20028cb67/configs/core/.env#L9), it will be auto generated after you first start the platform.
