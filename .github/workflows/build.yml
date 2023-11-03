@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: EnjinWalletDaemon-${{github.ref_name}}-linux.zip
-          path: build/linux/x64/release/bundle/EnjinWalletDaemon-${{github.ref_name}}-linux.zip
+          path: build/linux/x64/release/bundle
 
       - name: Linux Release
         uses: softprops/action-gh-release@v1
@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: EnjinWalletDaemon-${{github.ref_name}}-windows.zip
-          path: build/windows/runner/Release/EnjinWalletDaemon-${{github.ref_name}}-windows.zip
+          path: build/windows/runner/Release
           retention-days: 5
 
       - name: Windows Release
@@ -105,13 +105,13 @@ jobs:
         with:
           type: 'zip'
           filename: EnjinWalletDaemon-${{github.ref_name}}-macos.zip
-          directory: build/macos/Build/Products/Release
+          directory: build/macos/Build/Products/Release/enjin_wallet_daemon.app
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: EnjinWalletDaemon-${{github.ref_name}}-macos.zip
-          path: build/macos/Build/Products/Release
+          path: build/macos/Build/Products/Release/enjin_wallet_daemon.app
           retention-days: 5
 
       - name: macOS Release
