@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class LoadingBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<LoadingController>(() => LoadingController(), fenix: true);
+    Get.put<LoadingController>(LoadingController());
   }
 }

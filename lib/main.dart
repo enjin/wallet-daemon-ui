@@ -1,15 +1,13 @@
 import 'package:enjin_wallet_daemon/routes/app_pages.dart';
-import 'package:enjin_wallet_daemon/screens/loading/loading_controller.dart';
-import 'package:enjin_wallet_daemon/screens/loading/loading_screen.dart';
-import 'package:enjin_wallet_daemon/screens/lock/lock_screen.dart';
-import 'package:enjin_wallet_daemon/screens/main/main_screen.dart';
-import 'package:enjin_wallet_daemon/screens/onboard/onboard_screen.dart';
 import 'package:enjin_wallet_daemon/services/daemon_service.dart';
 import 'package:enjin_wallet_daemon/services/store_service.dart';
+import 'package:enjin_wallet_daemon/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:window_manager/window_manager.dart';
+
+import 'localization/app_localization.dart';
 
 final getIt = GetIt.instance;
 
@@ -19,10 +17,6 @@ void main() async {
   getIt.registerSingleton<StoreService>(StoreService());
   getIt.registerSingleton<DaemonService>(DaemonService());
 
-  // Get.lazyPut<LoadingController>(() => LoadingController());
-  Get.lazyPut<LoadingController>(() => LoadingController(), fenix: true);
-
-  // Must add this line.
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
@@ -36,7 +30,7 @@ void main() async {
     await windowManager.focus();
   });
 
-  runApp(EnjinApp());
+  runApp(const EnjinApp());
 }
 
 class EnjinApp extends StatelessWidget {
@@ -45,21 +39,14 @@ class EnjinApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      // theme: theme,
+      translations: AppLocalization(),
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('en', 'US'),
       title: 'Enjin Wallet Daemon',
       initialRoute: AppPages.init,
       getPages: AppPages.routes,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(
-            fontFamily: "Hauora",
-            color: Color(0xFF434A60),
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ),
     );
   }
 }

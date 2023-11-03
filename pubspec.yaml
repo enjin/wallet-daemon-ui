@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
   uuid: ^4.1.0
   path: ^1.8.3
   path_provider: ^2.1.1
@@ -28,6 +27,11 @@ dependencies:
   window_manager: ^0.3.7
   onboarding_overlay: ^3.2.1
   get: ^4.6.6
+  connectivity_plus: ^2.3.6
+  shared_preferences: ^2.0.15
+  cached_network_image: ^3.2.1
+  outline_gradient_button: ^2.0.0+1
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +50,9 @@ flutter_launcher_icons:
 flutter:
   uses-material-design: true
   assets:
+    - assets/fonts/
+    - assets/images/
+    - assets/animations/
     - lib/assets/
     - lib/fonts/
     - config.json
@@ -67,3 +74,15 @@ flutter:
            weight: 400
          - asset: lib/fonts/Hauora-SemiBold.ttf
            weight: 600
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/InterBold.ttf
+          weight: 700
+        - asset: assets/fonts/InterRegular.ttf
+          weight: 400
+        - asset: assets/fonts/InterMedium.ttf
+          weight: 500
+    - family: Aldrich
+      fonts:
+        - asset: assets/fonts/AldrichRegular.ttf
+          weight: 400

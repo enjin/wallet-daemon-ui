@@ -1,10 +1,9 @@
+import 'package:enjin_wallet_daemon/routes/app_pages.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:download_assets/download_assets.dart';
-import 'package:enjin_wallet_daemon/screens/lock/lock_screen.dart';
-import 'package:enjin_wallet_daemon/screens/onboard/onboard_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
@@ -14,7 +13,6 @@ class LoadingController extends GetxController with StateMixin {
   @override
   void onInit() {
     super.onInit();
-    print('test');
     _checkDependencies();
   }
 
@@ -39,8 +37,8 @@ class LoadingController extends GetxController with StateMixin {
     Future.delayed(
       const Duration(seconds: 1),
       () => hasDatabase
-          ? Get.offNamed(LockScreen.id)
-          : Get.offNamed(OnboardScreen.id),
+          ? Get.offNamed(Routes.onboard)
+          : Get.offNamed(Routes.onboard),
     );
   }
 
