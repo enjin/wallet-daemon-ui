@@ -103,7 +103,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: EnjinWalletDaemon-${{github.ref_name}}-macos
+          name: EnjinWalletDaemon-${{github.ref_name}}-macos.app
           path: build/macos/Build/Products/Release/enjin_wallet_daemon.app
           retention-days: 5
           
@@ -112,7 +112,7 @@ jobs:
         with:
           type: 'zip'
           filename: EnjinWalletDaemon-${{github.ref_name}}-macos.zip
-          directory: build/macos/Build/Products/Release
+          directory: build/macos/Build/Products/Release/enjin_wallet_daemon.app
 
       - name: macOS Release
         uses: softprops/action-gh-release@v1
