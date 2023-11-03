@@ -1,14 +1,14 @@
-
-import 'package:beamer/beamer.dart';
-import 'package:enjin_wallet_daemon/screens/loading_screen.dart';
-import 'package:enjin_wallet_daemon/screens/lock_screen.dart';
-import 'package:enjin_wallet_daemon/screens/main_screen.dart';
-import 'package:enjin_wallet_daemon/screens/onboard_screen.dart';
+import 'package:enjin_wallet_daemon/routes/app_pages.dart';
+import 'package:enjin_wallet_daemon/screens/loading/loading_controller.dart';
+import 'package:enjin_wallet_daemon/screens/loading/loading_screen.dart';
+import 'package:enjin_wallet_daemon/screens/lock/lock_screen.dart';
+import 'package:enjin_wallet_daemon/screens/main/main_screen.dart';
+import 'package:enjin_wallet_daemon/screens/onboard/onboard_screen.dart';
 import 'package:enjin_wallet_daemon/services/daemon_service.dart';
 import 'package:enjin_wallet_daemon/services/store_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:onboarding_overlay/onboarding_overlay.dart';
 import 'package:window_manager/window_manager.dart';
 
 final getIt = GetIt.instance;
@@ -18,6 +18,9 @@ void main() async {
 
   getIt.registerSingleton<StoreService>(StoreService());
   getIt.registerSingleton<DaemonService>(DaemonService());
+
+  // Get.lazyPut<LoadingController>(() => LoadingController());
+  Get.lazyPut<LoadingController>(() => LoadingController(), fenix: true);
 
   // Must add this line.
   await windowManager.ensureInitialized();
@@ -37,37 +40,14 @@ void main() async {
 }
 
 class EnjinApp extends StatelessWidget {
-  EnjinApp({super.key});
-
-  final routerDelegate = BeamerDelegate(
-    locationBuilder: RoutesLocationBuilder(
-      routes: {
-        '/': (context, state, data) => const LoadingScreen(),
-        '/first_main': (context, state, data) => Onboarding(
-              key: GlobalKey<OnboardingState>(),
-              steps: [
-                OnboardingStep(
-                  focusNode: getIt.get<StoreService>().focusNode,
-                  titleText: "Welcome to Enjin Wallet Daemon",
-                  bodyText:
-                      "First, click in the \"Start\" button so we can make the initial setup.",
-                )
-              ],
-              child: const MainScreen(),
-            ),
-        '/main': (context, state, data) => const MainScreen(),
-        '/lock': (context, state, data) => const LockScreen(),
-        '/onboard': (context, state, data) => const OnboardScreen(),
-      },
-    ),
-  );
+  const EnjinApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routeInformationParser: BeamerParser(),
-      routerDelegate: routerDelegate,
+    return GetMaterialApp(
       title: 'Enjin Wallet Daemon',
+      initialRoute: AppPages.init,
+      getPages: AppPages.routes,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

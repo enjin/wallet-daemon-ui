@@ -1,11 +1,14 @@
-import 'package:beamer/beamer.dart';
 import 'package:enjin_wallet_daemon/main.dart';
+import 'package:enjin_wallet_daemon/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../services/store_service.dart';
+import '../../services/store_service.dart';
 
 class OnboardScreen extends StatefulWidget {
+  static const id = 'onboarding';
+
   const OnboardScreen({super.key});
 
   @override
@@ -188,8 +191,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                         final store = getIt.get<StoreService>();
                         await store.init(passwordController.text);
 
-                        Beamer.of(context)
-                            .beamToReplacementNamed('/first_main');
+                        Get.offNamed(MainScreen.id);
 
                         return;
                       }

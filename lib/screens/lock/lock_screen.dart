@@ -1,12 +1,15 @@
-import 'package:beamer/beamer.dart';
 import 'package:enjin_wallet_daemon/main.dart';
+import 'package:enjin_wallet_daemon/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:window_manager/window_manager.dart';
-import '../services/daemon_service.dart';
-import '../services/store_service.dart';
+import '../../services/daemon_service.dart';
+import '../../services/store_service.dart';
 
 class LockScreen extends StatefulWidget {
+  static const id = 'lock';
+
   const LockScreen({super.key});
 
   @override
@@ -40,7 +43,8 @@ class _LockScreenState extends State<LockScreen> with WindowListener {
         await getIt.get<StoreService>().init(_passwordController.text);
 
     if (hasAccess) {
-      Beamer.of(context).beamToReplacementNamed('/main', data: 'from_lock');
+      Get.offNamed(MainScreen.id);
+      // Beamer.of(context).beamToReplacementNamed('/main', data: 'from_lock');
     }
 
     setState(() {

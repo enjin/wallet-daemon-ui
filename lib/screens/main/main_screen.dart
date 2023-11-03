@@ -1,8 +1,8 @@
-import 'package:beamer/beamer.dart';
+import 'package:enjin_wallet_daemon/screens/lock/lock_screen.dart';
+import 'package:get/get.dart';
 import 'package:enjin_wallet_daemon/main.dart';
 import 'package:enjin_wallet_daemon/services/daemon_service.dart';
 import 'package:flutter/material.dart';
-import 'package:onboarding_overlay/onboarding_overlay.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'dart:io';
@@ -12,9 +12,11 @@ import 'package:path/path.dart' as p;
 import 'package:uuid/v4.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:xterm/xterm.dart';
-import '../services/store_service.dart';
+import '../../services/store_service.dart';
 
 class MainScreen extends StatefulWidget {
+  static const id = 'main';
+
   const MainScreen({super.key});
 
   @override
@@ -794,15 +796,6 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     loadData();
-
-    try {
-      final OnboardingState? onboarding = Onboarding.of(context);
-      if (onboarding != null) {
-        WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
-          onboarding.show();
-        });
-      }
-    } catch (_) {}
   }
 
   @override
@@ -923,7 +916,7 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                       if (passwordController.text == repeatController.text &&
                           passwordController.text.length >= 8) {
                         await writeLockPassword(passwordController.text);
-                        Beamer.of(context).beamToReplacementNamed('/lock');
+                        Get.offNamed(LockScreen.id);
                       }
                     },
                     height: 48,
@@ -1055,7 +1048,7 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                     .init(passwordController.text);
 
                 if (!hasAccess) {
-                  Beamer.of(context).beamToReplacementNamed('/lock');
+                  Get.offNamed(LockScreen.id);
                   return;
                 }
 
@@ -1082,7 +1075,7 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
 
   Future<void> lockScreen() async {
     await getIt.get<StoreService>().close();
-    Beamer.of(context).beamToNamed('/lock');
+    Get.offNamed(LockScreen.id);
   }
 
   Future<void> setupStart() async {
@@ -1108,7 +1101,6 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
                 'To start we need to generate a wallet for your daemon.\nFor extra security, we use a password key to derive it.\nYou can set your own password or we can generate one for you.',
                 textAlign: TextAlign.justify,
               ),
-// https://wiki.polkadot.network/docs/learn-account-advanced#derivation-paths
               const SizedBox(
                 height: 24,
               ),
