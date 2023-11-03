@@ -23,18 +23,18 @@ jobs:
       - name: Build artifacts
         run: flutter build linux --release
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: EnjinWalletDaemon-${{github.ref_name}}-linux
+          path: build/linux/x64/release/bundle
+
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: EnjinWalletDaemon-${{github.ref_name}}-linux.zip
           directory: build/linux/x64/release/bundle
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: EnjinWalletDaemon-${{github.ref_name}}-linux.zip
-          path: build/linux/x64/release/bundle/EnjinWalletDaemon-${{github.ref_name}}-linux.zip
 
       - name: Linux Release
         uses: softprops/action-gh-release@v1
@@ -61,19 +61,19 @@ jobs:
       - name: Build artifacts
         run: flutter build windows --release
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: EnjinWalletDaemon-${{github.ref_name}}-windows
+          path: build/windows/runner/Release
+          retention-days: 5
+
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: EnjinWalletDaemon-${{github.ref_name}}-windows.zip
           directory: build/windows/runner/Release
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: EnjinWalletDaemon-${{github.ref_name}}-windows.zip
-          path: build/windows/runner/Release/EnjinWalletDaemon-${{github.ref_name}}-windows.zip
-          retention-days: 5
 
       - name: Windows Release
         uses: softprops/action-gh-release@v1
@@ -100,19 +100,19 @@ jobs:
       - name: Build artifacts
         run: flutter build macos --release
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: EnjinWalletDaemon-${{github.ref_name}}-macos.app
+          path: build/macos/Build/Products/Release/enjin_wallet_daemon.app
+          retention-days: 5
+          
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: EnjinWalletDaemon-${{github.ref_name}}-macos.zip
-          directory: build/macos/Build/Products/Release
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: EnjinWalletDaemon-${{github.ref_name}}-macos.zip
-          path: build/macos/Build/Products/Release/EnjinWalletDaemon-${{github.ref_name}}-macos.zip
-          retention-days: 5
+          directory: build/macos/Build/Products/Release/enjin_wallet_daemon.app
 
       - name: macOS Release
         uses: softprops/action-gh-release@v1
