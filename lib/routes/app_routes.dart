@@ -1,10 +1,10 @@
 part of 'app_pages.dart';
 
 abstract class Routes {
-  static const Main = 'Main';
-  static const Loading = 'Loading';
-  static const Lock = 'Lock';
-  static const Onboard = 'Onboard';
+  static const main = 'Main';
+  static const loading = 'Loading';
+  static const lock = 'Lock';
+  static const onboard = 'Onboard';
 }
 
 extension RoutesExtension on String {
