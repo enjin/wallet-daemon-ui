@@ -32,6 +32,7 @@ dependencies:
   cached_network_image: ^3.2.1
   outline_gradient_button: ^2.0.0+1
   intl: ^0.18.0
+  aligned_dialog: ^0.0.7
 
 dev_dependencies:
   flutter_test:
@@ -86,3 +87,7 @@ flutter:
       fonts:
         - asset: assets/fonts/AldrichRegular.ttf
           weight: 400
+    - family: Genos
+      fonts:
+        - asset: assets/fonts/Genos-Bold.ttf
+          weight: 700

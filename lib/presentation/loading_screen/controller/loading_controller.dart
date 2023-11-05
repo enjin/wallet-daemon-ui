@@ -8,8 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import '../../../screens/lock/lock_screen.dart';
-import '../../../screens/onboard/onboard_screen.dart';
 
 class LoadingController extends GetxController {
   static LoadingController get to => Get.find();

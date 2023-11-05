@@ -1,9 +1,11 @@
 import 'package:enjin_wallet_daemon/presentation/loading_screen/binding/loading_biding.dart';
 import 'package:enjin_wallet_daemon/presentation/loading_screen/loading_screen.dart';
+import 'package:enjin_wallet_daemon/presentation/lock_screen/binding/lock_binding.dart';
+import 'package:enjin_wallet_daemon/presentation/lock_screen/lock_screen.dart';
+import 'package:enjin_wallet_daemon/presentation/main_screen/binding/main_binding.dart';
+import 'package:enjin_wallet_daemon/presentation/main_screen/main_screen.dart';
 import 'package:enjin_wallet_daemon/presentation/onboard_screen/binding/onboard_biding.dart';
 import 'package:enjin_wallet_daemon/presentation/onboard_screen/onboard_screen.dart';
-import 'package:enjin_wallet_daemon/presentation/six_screen/binding/six_binding.dart';
-import 'package:enjin_wallet_daemon/presentation/six_screen/six_screen.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -26,15 +28,15 @@ class AppPages {
     ),
     GetPage(
       name: Routes.main.nameToRoute(),
-      page: () => SixScreen(),
+      page: () => MainScreen(),
       title: 'Main',
-      binding: SixBinding(),
+      binding: MainBinding(),
     ),
-    // GetPage(
-    //   name: Routes.onboard.nameToRoute(),
-    //   page: () => const OnboardScreen(),
-    //   title: 'Onboard',
-    //   // binding: LoadingBinding(),
-    // ),
+    GetPage(
+      name: Routes.lock.nameToRoute(),
+      page: () => const LockScreen(),
+      title: 'Lock',
+      binding: LockBinding(),
+    ),
   ];
 }

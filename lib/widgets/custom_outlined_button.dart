@@ -3,7 +3,7 @@ import 'package:enjin_wallet_daemon/core/app_export.dart';
 import 'package:enjin_wallet_daemon/widgets/base_button.dart';
 
 class CustomOutlinedButton extends BaseButton {
-  CustomOutlinedButton({
+  const CustomOutlinedButton({super.key, 
     Key? key,
     this.decoration,
     this.leftIcon,
@@ -49,8 +49,8 @@ class CustomOutlinedButton extends BaseButton {
   }
 
   Widget get buildOutlinedButtonWidget => Container(
-        height: this.height ?? 29.v,
-        width: this.width ?? double.maxFinite,
+        height: height ?? 29.v,
+        width: width ?? double.maxFinite,
         margin: margin,
         decoration: decoration,
         child: OutlinedButton(

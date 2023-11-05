@@ -8,7 +8,7 @@ class ProgressDialogUtils {
   static void showProgressDialog({isCancellable = false}) async {
     if (!isProgressVisible) {
       Get.dialog(
-        Center(
+        const Center(
           child: CircularProgressIndicator.adaptive(
             strokeWidth: 4,
             valueColor: AlwaysStoppedAnimation<Color>(

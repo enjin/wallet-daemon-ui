@@ -1,7 +1,7 @@
+import 'package:enjin_wallet_daemon/presentation/lock_screen/controller/lock_controller.dart';
 import 'package:enjin_wallet_daemon/routes/app_pages.dart';
 import 'package:enjin_wallet_daemon/services/daemon_service.dart';
 import 'package:enjin_wallet_daemon/services/store_service.dart';
-import 'package:enjin_wallet_daemon/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +16,8 @@ void main() async {
 
   getIt.registerSingleton<StoreService>(StoreService());
   getIt.registerSingleton<DaemonService>(DaemonService());
+
+  Get.lazyPut(() => LockController());
 
   await windowManager.ensureInitialized();
 

@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:enjin_wallet_daemon/core/app_export.dart';
 import 'package:enjin_wallet_daemon/widgets/custom_elevated_button.dart';
 import 'package:lottie/lottie.dart';
-import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widgets/custom_outlined_button.dart';
-import '../../widgets/custom_text_form_field.dart';
 
 class OnboardScreen extends GetWidget<OnboardController> {
   OnboardScreen({super.key});
@@ -176,11 +174,11 @@ class SigningPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Lottie.asset(
-        //   'assets/animations/check_list.json',
-        //   height: 387,
-        //   width: 380,
-        // ),
+        Lottie.asset(
+          'assets/animations/check_list.json',
+          height: 387,
+          width: 380,
+        ),
         const SizedBox(
           width: 38,
         ),
@@ -311,11 +309,11 @@ class SecurePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Lottie.asset(
-        //   'assets/animations/secure.json',
-        //   height: 387,
-        //   width: 380,
-        // ),
+        Lottie.asset(
+          'assets/animations/secure.json',
+          height: 387,
+          width: 380,
+        ),
         const SizedBox(
           width: 38,
         ),
@@ -461,31 +459,31 @@ class PasswordPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // SizedBox(
-        //   height: 387,
-        //   width: 340,
-        //   child: Stack(
-        //     alignment: Alignment.center,
-        //     children: [
-        //       Positioned(
-        //         top: 0,
-        //         child: Lottie.asset(
-        //           'assets/animations/secure.json',
-        //           // height: 387,
-        //           width: 340,
-        //         ),
-        //       ),
-        //       Positioned(
-        //         bottom: 0,
-        //         child: Lottie.asset(
-        //           'assets/animations/password_field.json',
-        //           // height: 387,
-        //           width: 226,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        SizedBox(
+          height: 387,
+          width: 340,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                top: 0,
+                child: Lottie.asset(
+                  'assets/animations/secure.json',
+                  // height: 387,
+                  width: 340,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Lottie.asset(
+                  'assets/animations/password_field.json',
+                  // height: 387,
+                  width: 226,
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(
           width: 38,
         ),

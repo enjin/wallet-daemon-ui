@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:enjin_wallet_daemon/core/app_export.dart';
 
 class CustomFloatingTextField extends StatelessWidget {
-  CustomFloatingTextField({
+  const CustomFloatingTextField({
     Key? key,
     this.alignment,
     this.width,
@@ -119,15 +119,15 @@ class CustomFloatingTextField extends StatelessWidget {
         fillColor: fillColor,
         filled: filled,
         border: borderDecoration ??
-            OutlineInputBorder(
+            const OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
         enabledBorder: borderDecoration ??
-            OutlineInputBorder(
+            const OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
         focusedBorder: borderDecoration ??
-            OutlineInputBorder(
+            const OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
       );

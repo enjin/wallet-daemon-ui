@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:enjin_wallet_daemon/core/app_export.dart';
 import 'package:flutter/material.dart';
 
@@ -13,15 +12,15 @@ class CustomButtonStyles {
             color: appTheme.black900.withOpacity(0.25),
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               0,
               2,
             ),
           ),
         ],
         gradient: LinearGradient(
-          begin: Alignment(0.5, 0),
-          end: Alignment(0.5, 1),
+          begin: const Alignment(0.5, 0),
+          end: const Alignment(0.5, 1),
           colors: [
             appTheme.deepPurple400,
             appTheme.deepPurple60001,
@@ -32,8 +31,8 @@ class CustomButtonStyles {
       BoxDecoration(
         borderRadius: BorderRadius.circular(12.h),
         gradient: LinearGradient(
-          begin: Alignment(0.5, 0),
-          end: Alignment(0.5, 1),
+          begin: const Alignment(0.5, 0),
+          end: const Alignment(0.5, 1),
           colors: [
             appTheme.deepPurple400,
             appTheme.deepPurple60001,
@@ -44,8 +43,8 @@ class CustomButtonStyles {
       BoxDecoration(
         borderRadius: BorderRadius.circular(12.h),
         gradient: LinearGradient(
-          begin: Alignment(0.5, 0),
-          end: Alignment(0.5, 1),
+          begin: const Alignment(0.5, 0),
+          end: const Alignment(0.5, 1),
           colors: [
             appTheme.deepPurple400,
             appTheme.deepPurple600,

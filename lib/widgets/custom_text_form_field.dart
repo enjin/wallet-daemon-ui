@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:enjin_wallet_daemon/core/app_export.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
+  const CustomTextFormField({
     Key? key,
     this.alignment,
     this.width,
