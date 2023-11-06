@@ -1385,95 +1385,121 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                   ),
                 ),
                 const Spacer(),
-                IconButton(
-                  onPressed: () {
-                    _showSetPasswordDialog(context);
-                  },
-                  padding: const EdgeInsets.all(0),
-                  hoverColor: const Color(0xFFB8B8B8),
-                  icon: const Icon(
-                    Icons.play_arrow,
-                    color: Color(0xFF6D6D6D),
-                    size: 24,
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 6,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  padding: const EdgeInsets.all(0),
-                  icon: const Icon(
-                    Icons.pause,
-                    color: Color(0xFF6D6D6D),
-                    size: 24,
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 6,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-                IconButton(
-                  onPressed: controller.lockScreen,
-                  padding: const EdgeInsets.all(0),
-                  icon: const Icon(
-                    Icons.lock,
-                    color: Color(0xFF6D6D6D),
-                    size: 24,
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 6,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-                Builder(builder: (context) {
-                  return IconButton(
-                    onPressed: () {
-                      showAlignedDialog(
-                        context: context,
-                        builder: _localDialogBuilder,
-                        followerAnchor: Alignment.topLeft,
-                        targetAnchor: Alignment.bottomLeft,
-                      );
-                    },
-                    padding: const EdgeInsets.all(0),
-                    icon: const Icon(
-                      Icons.settings,
-                      color: Color(0xFF6D6D6D),
-                      size: 24,
-                      shadows: [
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 6,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        )
-                      ],
+                Obx(
+                  () => SizedBox(
+                    height: 64,
+                    width: 200,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        hoverColor: Colors.transparent,
+                        onHover: (hover) {
+                          print(hover);
+                          controller.isHovering.value = hover;
+                        },
+                        onTap: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                              onHover: (hover) {
+                                controller.hoveredIcon.value =
+                                    hover ? 'play' : '';
+                              },
+                              onTap: () {},
+                              child: Icon(
+                                Icons.play_arrow,
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 6,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                                size: controller.isHovering.value ? 32 : 24,
+                                color: controller.hoveredIcon.value == 'play'
+                                    ? Color(0xFFB8B8B8)
+                                    : Color(0xFF6D6D6D),
+                              ),
+                            ),
+                            InkWell(
+                              onHover: (hover) {
+                                controller.hoveredIcon.value =
+                                    hover ? 'pause' : '';
+                              },
+                              onTap: () {},
+                              child: Icon(
+                                Icons.pause,
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 6,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                                size: controller.isHovering.value ? 32 : 24,
+                                color: controller.hoveredIcon.value == 'pause'
+                                    ? Color(0xFFB8B8B8)
+                                    : Color(0xFF6D6D6D),
+                              ),
+                            ),
+                            InkWell(
+                              onHover: (hover) {
+                                controller.hoveredIcon.value =
+                                    hover ? 'lock' : '';
+                              },
+                              onTap: () {},
+                              child: Icon(
+                                Icons.lock,
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 6,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                                size: controller.isHovering.value ? 32 : 24,
+                                color: controller.hoveredIcon.value == 'lock'
+                                    ? Color(0xFFB8B8B8)
+                                    : Color(0xFF6D6D6D),
+                              ),
+                            ),
+                            Builder(
+                              builder: (context) {
+                                return InkWell(
+                                  onHover: (hover) {
+                                    controller.hoveredIcon.value =
+                                        hover ? 'settings' : '';
+                                  },
+                                  onTap: () {},
+                                  child: Icon(
+                                    Icons.settings,
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 6,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                    size: controller.isHovering.value ? 32 : 24,
+                                    color: controller.hoveredIcon.value ==
+                                            'settings'
+                                        ? Color(0xFFB8B8B8)
+                                        : Color(0xFF6D6D6D),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  );
-                }),
+                  ),
+                ),
                 const SizedBox(
                   width: 45,
                 ),

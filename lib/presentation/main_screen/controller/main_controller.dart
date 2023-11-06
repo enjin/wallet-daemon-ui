@@ -18,6 +18,9 @@ import '../../../services/store_service.dart';
 class MainController extends GetxController {
   static MainController get to => Get.find();
 
+  final isHovering = false.obs;
+  final hoveredIcon = ''.obs;
+
   Terminal terminal = Terminal();
   TerminalController terminalController = TerminalController();
 
