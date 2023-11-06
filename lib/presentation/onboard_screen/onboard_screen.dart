@@ -1,5 +1,4 @@
 import 'package:enjin_wallet_daemon/presentation/onboard_screen/controller/onboard_controller.dart';
-import 'package:enjin_wallet_daemon/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:enjin_wallet_daemon/core/app_export.dart';
 import 'package:enjin_wallet_daemon/widgets/custom_elevated_button.dart';
@@ -545,43 +544,68 @@ class PasswordPage extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 309,
-                      height: 37,
-                      child: TextField(
-                        cursorColor: Colors.white,
-                        obscureText: true,
-                        controller: controller.passwordController,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: "Input your password",
-                          hintStyle: const TextStyle(
-                            color: Color(0xFF4B4B4B),
+                      child: Obx(
+                        () => TextField(
+                          cursorColor: Colors.white,
+                          obscureText: controller.isPasswordObscure.value,
+                          onChanged: controller.onChangedPassword,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Inter',
+                            fontSize: 14,
                           ),
-                          suffixIconConstraints: const BoxConstraints(
-                            maxHeight: 37,
-                          ),
-                          suffixIcon: CustomImageView(
-                            imagePath: ImageConstant.imgGroup,
-                            margin: const EdgeInsets.only(right: 10),
-                          ),
-                          contentPadding: const EdgeInsets.only(
-                            left: 10,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(
-                              color: appTheme.deepPurple60001,
-                              style: BorderStyle.solid,
-                              width: 1.5,
+                          decoration: InputDecoration(
+                            errorText: controller.hasPasswordError,
+                            errorStyle: const TextStyle(
+                              color: Color(0xFFFF5F57),
                             ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(
-                              color: appTheme.deepPurple60001,
-                              style: BorderStyle.solid,
-                              width: 1.5,
+                            hintText: "Input your password",
+                            hintStyle: const TextStyle(
+                              color: Color(0xFF4B4B4B),
+                            ),
+                            suffixIconConstraints: const BoxConstraints(
+                              maxHeight: 26,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: controller.onPressedPasswordObscure,
+                              icon: controller.isPasswordObscure.value
+                                  ? Image.asset('assets/images/eye.png')
+                                  : Image.asset('assets/images/eye_cut.png'),
+                            ),
+                            contentPadding: const EdgeInsets.only(
+                              left: 10,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
                             ),
                           ),
                         ),
@@ -592,43 +616,68 @@ class PasswordPage extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 309,
-                      height: 37,
-                      child: TextField(
-                        cursorColor: Colors.white,
-                        obscureText: true,
-                        controller: controller.repeatController,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: "Repeat the password",
-                          hintStyle: const TextStyle(
-                            color: Color(0xFF4B4B4B),
+                      child: Obx(
+                        () => TextField(
+                          cursorColor: Colors.white,
+                          obscureText: controller.isRepeatObscure.value,
+                          onChanged: controller.onChangedRepeat,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Inter',
+                            fontSize: 14,
                           ),
-                          suffixIconConstraints: const BoxConstraints(
-                            maxHeight: 37,
-                          ),
-                          suffixIcon: CustomImageView(
-                            imagePath: ImageConstant.imgGroup,
-                            margin: const EdgeInsets.only(right: 10),
-                          ),
-                          contentPadding: const EdgeInsets.only(
-                            left: 10,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(
-                              color: appTheme.deepPurple60001,
-                              style: BorderStyle.solid,
-                              width: 1.5,
+                          decoration: InputDecoration(
+                            errorText: controller.hasRepeatError,
+                            errorStyle: const TextStyle(
+                              color: Color(0xFFFF5F57),
                             ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide(
+                            hintText: "Repeat the password",
+                            hintStyle: const TextStyle(
                               color: Color(0xFF4B4B4B),
-                              style: BorderStyle.solid,
-                              width: 1.5,
+                            ),
+                            suffixIconConstraints: const BoxConstraints(
+                              maxHeight: 26,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: controller.onPressedRepeatObscure,
+                              icon: controller.isRepeatObscure.value
+                                  ? Image.asset('assets/images/eye.png')
+                                  : Image.asset('assets/images/eye_cut.png'),
+                            ),
+                            contentPadding: const EdgeInsets.only(
+                              left: 10,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                color: appTheme.deepPurple60001,
+                                style: BorderStyle.solid,
+                                width: 1.5,
+                              ),
                             ),
                           ),
                         ),
@@ -668,16 +717,19 @@ class PasswordPage extends StatelessWidget {
                   const SizedBox(
                     width: 17,
                   ),
-                  CustomElevatedButton(
-                    height: 47,
-                    width: 158,
-                    text: "lbl_next".tr,
-                    buttonStyle: CustomButtonStyles.none,
-                    onPressed: controller.setPassword,
-                    decoration: CustomButtonStyles
-                        .gradientDeepPurpleToDeepPurpleDecoration,
-                    buttonTextStyle: theme.textTheme.labelMedium!.copyWith(
-                      fontSize: 18.0,
+                  Obx(
+                    () => CustomElevatedButton(
+                      height: 47,
+                      width: 158,
+                      text: "lbl_next".tr,
+                      buttonStyle: CustomButtonStyles.none,
+                      onPressed: controller.setPassword,
+                      isDisabled: controller.isNextDisabled,
+                      decoration: CustomButtonStyles
+                          .gradientDeepPurpleToDeepPurpleDecoration,
+                      buttonTextStyle: theme.textTheme.labelMedium!.copyWith(
+                        fontSize: 18.0,
+                      ),
                     ),
                   ),
                 ],

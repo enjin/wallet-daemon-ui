@@ -73,23 +73,37 @@ class LockScreen extends GetView<LockController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: TextField(
-                            controller: controller.passwordController,
-                            obscureText: controller.isObscure,
-                            decoration: const InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.remove_red_eye_outlined,
-                                color: Color(0xFF6D6D6D),
-                              ),
-                              contentPadding: EdgeInsets.only(left: 16),
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter your password to unlock',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
+                          child: Obx(
+                            () => TextField(
+                              obscureText: controller.isPasswordObscure.value,
+                              onChanged: controller.onChangedPassword,
+                              decoration: InputDecoration(
+                                suffixIconConstraints: const BoxConstraints(
+                                  maxHeight: 26,
                                 ),
-                                borderSide: BorderSide.none,
+                                suffixIcon: IconButton(
+                                  onPressed:
+                                      controller.onPressedPasswordObscure,
+                                  icon: controller.isPasswordObscure.value
+                                      ? Image.asset(
+                                          'assets/images/eye_grey.png')
+                                      : Image.asset(
+                                          'assets/images/eye_cut_grey.png'),
+                                ),
+                                contentPadding: const EdgeInsets.only(left: 16),
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Enter your password to unlock',
+                                errorText: controller.hasPasswordError,
+                                errorStyle: const TextStyle(
+                                  color: Color(0xFFFF5F57),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  borderSide: BorderSide.none,
+                                ),
                               ),
                             ),
                           ),
@@ -97,10 +111,13 @@ class LockScreen extends GetView<LockController> {
                         const SizedBox(
                           width: 8,
                         ),
-                        IconButton(
+                        MaterialButton(
                           onPressed: controller.checkPassword,
                           padding: const EdgeInsets.all(0),
-                          icon: Icon(
+                          shape: const CircleBorder(),
+                          minWidth: 30,
+                          clipBehavior: Clip.hardEdge,
+                          child: Icon(
                             Icons.arrow_circle_right,
                             size: 40,
                             color: Colors.white.withOpacity(0.5),

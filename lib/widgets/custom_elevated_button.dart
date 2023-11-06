@@ -45,26 +45,29 @@ class CustomElevatedButton extends BaseButton {
         : buildElevatedButtonWidget;
   }
 
-  Widget get buildElevatedButtonWidget => Container(
-        height: height ?? 25.v,
-        width: width ?? double.maxFinite,
-        margin: margin,
-        decoration: decoration ??
-            CustomButtonStyles.gradientDeepPurpleToDeepPurpleDecoration,
-        child: ElevatedButton(
-          style: buttonStyle,
-          onPressed: isDisabled ?? false ? null : onPressed ?? () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              leftIcon ?? const SizedBox.shrink(),
-              Text(
-                text,
-                style: buttonTextStyle ?? theme.textTheme.labelSmall,
-              ),
-              rightIcon ?? const SizedBox.shrink(),
-            ],
+  Widget get buildElevatedButtonWidget => Opacity(
+        opacity: isDisabled ?? false ? 0.3 : 1.0,
+        child: Container(
+          height: height ?? 25.v,
+          width: width ?? double.maxFinite,
+          margin: margin,
+          decoration: decoration ??
+              CustomButtonStyles.gradientDeepPurpleToDeepPurpleDecoration,
+          child: ElevatedButton(
+            style: buttonStyle,
+            onPressed: isDisabled ?? false ? null : onPressed ?? () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                leftIcon ?? const SizedBox.shrink(),
+                Text(
+                  text,
+                  style: buttonTextStyle ?? theme.textTheme.labelSmall,
+                ),
+                rightIcon ?? const SizedBox.shrink(),
+              ],
+            ),
           ),
         ),
       );
