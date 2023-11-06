@@ -14,6 +14,7 @@ import '../../../main.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/daemon_service.dart';
 import '../../../services/store_service.dart';
+import '../../lock_screen/controller/lock_controller.dart';
 
 class MainController extends GetxController {
   static MainController get to => Get.find();
@@ -46,8 +47,6 @@ class MainController extends GetxController {
   List<String> output = [];
 
   void lockScreen() {
-    print('test');
-
     Get.offNamed(Routes.lock.nameToRoute());
   }
 

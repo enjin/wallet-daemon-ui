@@ -1394,7 +1394,6 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                       child: InkWell(
                         hoverColor: Colors.transparent,
                         onHover: (hover) {
-                          print(hover);
                           controller.isHovering.value = hover;
                         },
                         onTap: () {},
@@ -1402,6 +1401,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
+                              hoverColor: Colors.transparent,
                               onHover: (hover) {
                                 controller.hoveredIcon.value =
                                     hover ? 'play' : '';
@@ -1423,8 +1423,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                     size: controller.isHovering.value ? 30 : 24,
                                     color:
                                         controller.hoveredIcon.value == 'play'
-                                            ? Color(0xFFB8B8B8)
-                                            : Color(0xFF6D6D6D),
+                                            ? const Color(0xFFB8B8B8)
+                                            : const Color(0xFF6D6D6D),
                                   ),
                                   Opacity(
                                     opacity:
@@ -1437,8 +1437,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                         fontWeight: FontWeight.w700,
                                         color: controller.hoveredIcon.value ==
                                                 'play'
-                                            ? Color(0xFFB8B8B8)
-                                            : Color(0xFF6D6D6D),
+                                            ? const Color(0xFFB8B8B8)
+                                            : const Color(0xFF6D6D6D),
                                         shadows: const [
                                           BoxShadow(
                                             color: Color(0x3F000000),
@@ -1454,6 +1454,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                               ),
                             ),
                             InkWell(
+                              hoverColor: Colors.transparent,
                               onHover: (hover) {
                                 controller.hoveredIcon.value =
                                     hover ? 'pause' : '';
@@ -1475,8 +1476,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                     size: controller.isHovering.value ? 30 : 24,
                                     color:
                                         controller.hoveredIcon.value == 'pause'
-                                            ? Color(0xFFB8B8B8)
-                                            : Color(0xFF6D6D6D),
+                                            ? const Color(0xFFB8B8B8)
+                                            : const Color(0xFF6D6D6D),
                                   ),
                                   Opacity(
                                     opacity:
@@ -1489,8 +1490,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                         fontWeight: FontWeight.w700,
                                         color: controller.hoveredIcon.value ==
                                                 'pause'
-                                            ? Color(0xFFB8B8B8)
-                                            : Color(0xFF6D6D6D),
+                                            ? const Color(0xFFB8B8B8)
+                                            : const Color(0xFF6D6D6D),
                                         shadows: const [
                                           BoxShadow(
                                             color: Color(0x3F000000),
@@ -1506,11 +1507,12 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                               ),
                             ),
                             InkWell(
+                              hoverColor: Colors.transparent,
                               onHover: (hover) {
                                 controller.hoveredIcon.value =
                                     hover ? 'lock' : '';
                               },
-                              onTap: () {},
+                              onTap: controller.lockScreen,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -1527,8 +1529,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                     size: controller.isHovering.value ? 30 : 24,
                                     color:
                                         controller.hoveredIcon.value == 'lock'
-                                            ? Color(0xFFB8B8B8)
-                                            : Color(0xFF6D6D6D),
+                                            ? const Color(0xFFB8B8B8)
+                                            : const Color(0xFF6D6D6D),
                                   ),
                                   Opacity(
                                     opacity:
@@ -1541,8 +1543,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                         fontWeight: FontWeight.w700,
                                         color: controller.hoveredIcon.value ==
                                                 'lock'
-                                            ? Color(0xFFB8B8B8)
-                                            : Color(0xFF6D6D6D),
+                                            ? const Color(0xFFB8B8B8)
+                                            : const Color(0xFF6D6D6D),
                                         shadows: const [
                                           BoxShadow(
                                             color: Color(0x3F000000),
@@ -1560,6 +1562,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                             Builder(
                               builder: (context) {
                                 return InkWell(
+                                  hoverColor: Colors.transparent,
                                   onHover: (hover) {
                                     controller.hoveredIcon.value =
                                         hover ? 'settings' : '';
@@ -1583,8 +1586,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                             : 24,
                                         color: controller.hoveredIcon.value ==
                                                 'settings'
-                                            ? Color(0xFFB8B8B8)
-                                            : Color(0xFF6D6D6D),
+                                            ? const Color(0xFFB8B8B8)
+                                            : const Color(0xFF6D6D6D),
                                       ),
                                       Opacity(
                                         opacity: controller.isHovering.value
@@ -1599,8 +1602,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                             color:
                                                 controller.hoveredIcon.value ==
                                                         'settings'
-                                                    ? Color(0xFFB8B8B8)
-                                                    : Color(0xFF6D6D6D),
+                                                    ? const Color(0xFFB8B8B8)
+                                                    : const Color(0xFF6D6D6D),
                                             shadows: const [
                                               BoxShadow(
                                                 color: Color(0x3F000000),

@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class LockBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(() => LockController());
+    Get.lazyPut(() => LockController());
   }
 }
