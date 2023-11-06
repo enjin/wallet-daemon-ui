@@ -1388,7 +1388,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                 Obx(
                   () => SizedBox(
                     height: 64,
-                    width: 200,
+                    width: 210,
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
@@ -1399,7 +1399,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                         },
                         onTap: () {},
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
                               onHover: (hover) {
@@ -1407,20 +1407,50 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                     hover ? 'play' : '';
                               },
                               onTap: () {},
-                              child: Icon(
-                                Icons.play_arrow,
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 6,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  )
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.play_arrow,
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 6,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                    size: controller.isHovering.value ? 30 : 24,
+                                    color:
+                                        controller.hoveredIcon.value == 'play'
+                                            ? Color(0xFFB8B8B8)
+                                            : Color(0xFF6D6D6D),
+                                  ),
+                                  Opacity(
+                                    opacity:
+                                        controller.isHovering.value ? 1.0 : 0.0,
+                                    child: Text(
+                                      'Run',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: controller.hoveredIcon.value ==
+                                                'play'
+                                            ? Color(0xFFB8B8B8)
+                                            : Color(0xFF6D6D6D),
+                                        shadows: const [
+                                          BoxShadow(
+                                            color: Color(0x3F000000),
+                                            blurRadius: 6,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                                size: controller.isHovering.value ? 32 : 24,
-                                color: controller.hoveredIcon.value == 'play'
-                                    ? Color(0xFFB8B8B8)
-                                    : Color(0xFF6D6D6D),
                               ),
                             ),
                             InkWell(
@@ -1429,20 +1459,50 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                     hover ? 'pause' : '';
                               },
                               onTap: () {},
-                              child: Icon(
-                                Icons.pause,
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 6,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  )
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.pause,
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 6,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                    size: controller.isHovering.value ? 30 : 24,
+                                    color:
+                                        controller.hoveredIcon.value == 'pause'
+                                            ? Color(0xFFB8B8B8)
+                                            : Color(0xFF6D6D6D),
+                                  ),
+                                  Opacity(
+                                    opacity:
+                                        controller.isHovering.value ? 1.0 : 0.0,
+                                    child: Text(
+                                      'Pause',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: controller.hoveredIcon.value ==
+                                                'pause'
+                                            ? Color(0xFFB8B8B8)
+                                            : Color(0xFF6D6D6D),
+                                        shadows: const [
+                                          BoxShadow(
+                                            color: Color(0x3F000000),
+                                            blurRadius: 6,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                                size: controller.isHovering.value ? 32 : 24,
-                                color: controller.hoveredIcon.value == 'pause'
-                                    ? Color(0xFFB8B8B8)
-                                    : Color(0xFF6D6D6D),
                               ),
                             ),
                             InkWell(
@@ -1451,20 +1511,50 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                     hover ? 'lock' : '';
                               },
                               onTap: () {},
-                              child: Icon(
-                                Icons.lock,
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 6,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  )
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.lock,
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x3F000000),
+                                        blurRadius: 6,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                    size: controller.isHovering.value ? 30 : 24,
+                                    color:
+                                        controller.hoveredIcon.value == 'lock'
+                                            ? Color(0xFFB8B8B8)
+                                            : Color(0xFF6D6D6D),
+                                  ),
+                                  Opacity(
+                                    opacity:
+                                        controller.isHovering.value ? 1.0 : 0.0,
+                                    child: Text(
+                                      'Lock',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: controller.hoveredIcon.value ==
+                                                'lock'
+                                            ? Color(0xFFB8B8B8)
+                                            : Color(0xFF6D6D6D),
+                                        shadows: const [
+                                          BoxShadow(
+                                            color: Color(0x3F000000),
+                                            blurRadius: 6,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                                size: controller.isHovering.value ? 32 : 24,
-                                color: controller.hoveredIcon.value == 'lock'
-                                    ? Color(0xFFB8B8B8)
-                                    : Color(0xFF6D6D6D),
                               ),
                             ),
                             Builder(
@@ -1475,21 +1565,54 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                         hover ? 'settings' : '';
                                   },
                                   onTap: () {},
-                                  child: Icon(
-                                    Icons.settings,
-                                    shadows: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 6,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.settings,
+                                        shadows: const [
+                                          BoxShadow(
+                                            color: Color(0x3F000000),
+                                            blurRadius: 6,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0,
+                                          )
+                                        ],
+                                        size: controller.isHovering.value
+                                            ? 30
+                                            : 24,
+                                        color: controller.hoveredIcon.value ==
+                                                'settings'
+                                            ? Color(0xFFB8B8B8)
+                                            : Color(0xFF6D6D6D),
+                                      ),
+                                      Opacity(
+                                        opacity: controller.isHovering.value
+                                            ? 1.0
+                                            : 0.0,
+                                        child: Text(
+                                          'Settings',
+                                          style: TextStyle(
+                                            fontFamily: 'Inter',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700,
+                                            color:
+                                                controller.hoveredIcon.value ==
+                                                        'settings'
+                                                    ? Color(0xFFB8B8B8)
+                                                    : Color(0xFF6D6D6D),
+                                            shadows: const [
+                                              BoxShadow(
+                                                color: Color(0x3F000000),
+                                                blurRadius: 6,
+                                                offset: Offset(0, 4),
+                                                spreadRadius: 0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ],
-                                    size: controller.isHovering.value ? 32 : 24,
-                                    color: controller.hoveredIcon.value ==
-                                            'settings'
-                                        ? Color(0xFFB8B8B8)
-                                        : Color(0xFF6D6D6D),
                                   ),
                                 );
                               },
@@ -1501,7 +1624,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                   ),
                 ),
                 const SizedBox(
-                  width: 45,
+                  width: 20,
                 ),
                 Container(
                   width: 165,
