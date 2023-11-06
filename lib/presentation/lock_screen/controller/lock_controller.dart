@@ -1,89 +1,52 @@
 import 'package:enjin_wallet_daemon/core/app_export.dart';
+import 'package:enjin_wallet_daemon/routes/app_pages.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:window_manager/window_manager.dart';
 
-class LockController extends GetxController {
+import '../../../main.dart';
+import '../../../services/daemon_service.dart';
+import '../../../services/store_service.dart';
+
+class LockController extends GetxController with WindowListener {
   static LockController get to => Get.find();
 
-  // Rx<SixModel> sixModelObj = SixModel().obs;
-  //
-  // SelectionPopupModel? selectedDropDownValue;
-  //
-  // onSelected(dynamic value) {
-  //   for (var element in sixModelObj.value.dropdownItemList.value) {
-  //     element.isSelected = false;
-  //     if (element.id == value.id) {
-  //       element.isSelected = true;
-  //     }
-  //   }
-  //   sixModelObj.value.dropdownItemList.refresh();
-  // }
+  final passwordController = TextEditingController();
+  bool isObscure = true;
+  bool hasError = false;
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
+    windowManager.addListener(this);
+    print('added on init');
   }
 
   @override
-  void onReady() {
-    // TODO: implement onReady
-    super.onReady();
+  void onClose() {
+    super.onClose();
+    windowManager.removeListener(this);
+    print('removed listener');
+  }
+
+  @override
+  void onWindowClose() {
+    print('window closed');
+    getIt.get<DaemonService>().stopWallet();
+    print('removed');
+  }
+
+  Future<void> checkPassword() async {
+    final bool hasAccess =
+        await getIt.get<StoreService>().init(passwordController.text);
+
+    if (hasAccess) {
+      Get.offNamed(Routes.main.nameToRoute());
+    }
+
+    hasError = true;
   }
 }
 
-//
-// import 'package:enjin_wallet_daemon/main.dart';
-// import 'package:enjin_wallet_daemon/screens/main/main_screen.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:lottie/lottie.dart';
-// import 'package:window_manager/window_manager.dart';
-// import '../../services/daemon_service.dart';
-// import '../../services/store_service.dart';
-//
-// class LockScreen extends StatefulWidget {
-//   static const id = 'lock';
-//
-//   const LockScreen({super.key});
-//
-//   @override
-//   State<LockScreen> createState() => _LockScreenState();
-// }
-
-// class _LockScreenState extends State<LockScreen> with WindowListener {
-//   final _passwordController = TextEditingController();
-//   bool _isObscure = true;
-//   bool _hasError = false;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     windowManager.addListener(this);
-//   }
-//
-//   @override
-//   void dispose() {
-//     windowManager.removeListener(this);
-//     super.dispose();
-//   }
-//
-//   @override
-//   void onWindowClose() {
-//     getIt.get<DaemonService>().stopWallet();
-//   }
-//
-//   Future<void> checkPassword() async {
-//     final bool hasAccess =
-//     await getIt.get<StoreService>().init(_passwordController.text);
-//
-//     if (hasAccess) {
-//       Get.offNamed(MainScreen.id);
-//       // Beamer.of(context).beamToReplacementNamed('/main', data: 'from_lock');
-//     }
-//
-//     setState(() {
-//       _hasError = true;
-//     });
-//   }
 //
 //   @override
 //   Widget build(BuildContext context) {

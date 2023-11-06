@@ -3,8 +3,8 @@ import 'package:enjin_wallet_daemon/core/app_export.dart';
 import 'package:enjin_wallet_daemon/widgets/base_button.dart';
 
 class CustomElevatedButton extends BaseButton {
-  const CustomElevatedButton({super.key, 
-    Key? key,
+  const CustomElevatedButton({
+    super.key,
     this.decoration,
     this.leftIcon,
     this.rightIcon,

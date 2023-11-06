@@ -1,4 +1,3 @@
-import 'package:enjin_wallet_daemon/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:enjin_wallet_daemon/core/app_export.dart';
 import 'controller/lock_controller.dart';
@@ -9,9 +8,7 @@ class LockScreen extends GetView<LockController> {
 
   @override
   Widget build(BuildContext context) {
-    print(controller);
     mediaQueryData = MediaQuery.of(context);
-
     return Scaffold(
       backgroundColor: appTheme.blueGray900,
       body: Container(
@@ -75,9 +72,11 @@ class LockScreen extends GetView<LockController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: TextField(
-                            decoration: InputDecoration(
+                            controller: controller.passwordController,
+                            obscureText: controller.isObscure,
+                            decoration: const InputDecoration(
                               suffixIcon: Icon(
                                 Icons.remove_red_eye_outlined,
                                 color: Color(0xFF6D6D6D),
@@ -99,9 +98,7 @@ class LockScreen extends GetView<LockController> {
                           width: 8,
                         ),
                         IconButton(
-                          onPressed: () {
-                            Get.offNamed(Routes.main.nameToRoute());
-                          },
+                          onPressed: controller.checkPassword,
                           padding: const EdgeInsets.all(0),
                           icon: Icon(
                             Icons.arrow_circle_right,

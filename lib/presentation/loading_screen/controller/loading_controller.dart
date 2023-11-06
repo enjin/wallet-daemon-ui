@@ -8,18 +8,20 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-
 class LoadingController extends GetxController {
   static LoadingController get to => Get.find();
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
+
     _checkDependencies();
   }
 
   Future<void> _checkDependencies() async {
     final Directory appDir = await getApplicationSupportDirectory();
+    print(appDir.path);
+
     final DownloadAssetsController downloadAssetsController =
         DownloadAssetsController();
 
@@ -39,7 +41,7 @@ class LoadingController extends GetxController {
     Future.delayed(
       const Duration(seconds: 1),
       () => hasDatabase
-          ? Get.offNamed(Routes.onboard.nameToRoute())
+          ? Get.offNamed(Routes.lock.nameToRoute())
           : Get.offNamed(Routes.onboard.nameToRoute()),
     );
   }

@@ -448,10 +448,12 @@ class SecurePage extends StatelessWidget {
 class PasswordPage extends StatelessWidget {
   final PageController pageController;
 
-  const PasswordPage({
+  PasswordPage({
     super.key,
     required this.pageController,
   });
+
+  final controller = OnboardController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -547,6 +549,7 @@ class PasswordPage extends StatelessWidget {
                       child: TextField(
                         cursorColor: Colors.white,
                         obscureText: true,
+                        controller: controller.passwordController,
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -593,6 +596,7 @@ class PasswordPage extends StatelessWidget {
                       child: TextField(
                         cursorColor: Colors.white,
                         obscureText: true,
+                        controller: controller.repeatController,
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -669,9 +673,7 @@ class PasswordPage extends StatelessWidget {
                     width: 158,
                     text: "lbl_next".tr,
                     buttonStyle: CustomButtonStyles.none,
-                    onPressed: () {
-                      Get.offNamed(Routes.main.nameToRoute());
-                    },
+                    onPressed: controller.setPassword,
                     decoration: CustomButtonStyles
                         .gradientDeepPurpleToDeepPurpleDecoration,
                     buttonTextStyle: theme.textTheme.labelMedium!.copyWith(
