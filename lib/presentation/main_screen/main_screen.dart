@@ -787,7 +787,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
     );
   }
 
-  Future<void> _showSetPasswordDialog(BuildContext context) async {
+  Future<void> showSetPasswordDialog(BuildContext context) async {
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController repeatController = TextEditingController();
 
@@ -1003,7 +1003,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                     fontFamily: 'Inter',
                   ),
                   decoration: InputDecoration(
-                    errorText: passwordController.text != repeatController.text
+                    errorText: repeatController.text.isNotEmpty &&
+                            passwordController.text != repeatController.text
                         ? 'Passwords do not match'
                         : null,
                     contentPadding: const EdgeInsets.only(left: 10, right: 10),
@@ -1059,54 +1060,71 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                       controller.setWalletPassword(passwordController.text);
                       Navigator.pop(context);
                     },
-                    height: 48,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    color: const Color(0xFF7866D5),
-                    // gradient: const LinearGradient(
-                    //   begin: Alignment(0.00, -1.00),
-                    //   end: Alignment(0, 1),
-                    //   colors: [
-                    //     Color(0xFF7866D5),
-                    //     Color(0xFF5543B7),
-                    //   ],
-                    // ),
+                    elevation: 0,
+                    padding: const EdgeInsets.all(0),
+                    color: Colors.transparent,
+                    hoverElevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Text(
-                      'Done',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
+                    child: Container(
+                      width: 130,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          begin: const Alignment(0.5, 0),
+                          end: const Alignment(0.5, 1),
+                          colors: [
+                            appTheme.deepPurple400,
+                            appTheme.deepPurple60001,
+                          ],
+                        ),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Done',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    width: 10,
+                    width: 20,
                   ),
                   MaterialButton(
-                    onPressed: () => Navigator.pop(context),
-                    height: 48,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    color: Colors.white,
+                    onPressed: () => Navigator.of(context).pop(),
+                    elevation: 0,
+                    padding: const EdgeInsets.all(0),
+                    color: Colors.transparent,
+                    hoverElevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Text(
-                      'Generate password',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF2F2F2F),
-                        fontSize: 11,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
+                    child: Container(
+                      width: 130,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Generate password',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 11,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -1417,7 +1435,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                   controller.playAnimateController.reverse();
                                 }
                               },
-                              onTap: () {},
+                              onTap: () => showSetPasswordDialog(context),
                               child: SizedBox(
                                 width: 65,
                                 child: Column(
