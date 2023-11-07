@@ -1,4 +1,4 @@
-import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/v4.dart';
 import 'package:window_manager/window_manager.dart';
@@ -928,7 +928,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                   onChanged: (text) {
                     setState(() {});
                   },
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Inter',
                   ),
@@ -1123,7 +1123,6 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
     return (BuildContext context) {
       return GestureDetector(
         onTap: () {
-          print('test');
           Navigator.of(context).pop();
         },
         child: Material(
@@ -1388,48 +1387,71 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                 Obx(
                   () => SizedBox(
                     height: 64,
-                    width: 210,
+                    width: 260,
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
                         hoverColor: Colors.transparent,
                         onHover: (hover) {
-                          controller.isHovering.value = hover;
+                          if (hover) {
+                            controller.hoverAnimateController.forward();
+                          } else {
+                            controller.hoverAnimateController.reverse();
+                          }
                         },
                         onTap: () {},
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             InkWell(
                               hoverColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               onHover: (hover) {
-                                controller.hoveredIcon.value =
-                                    hover ? 'play' : '';
+                                if (hover) {
+                                  controller.hoveredIcon.value = 'play';
+                                  controller.playAnimateController.forward();
+                                } else {
+                                  controller.hoveredIcon.value = '';
+                                  controller.playAnimateController.reverse();
+                                }
                               },
                               onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Icon(
-                                    Icons.play_arrow,
-                                    shadows: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 6,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                    size: controller.isHovering.value ? 30 : 24,
-                                    color:
-                                        controller.hoveredIcon.value == 'play'
-                                            ? const Color(0xFFB8B8B8)
-                                            : const Color(0xFF6D6D6D),
-                                  ),
-                                  Opacity(
-                                    opacity:
-                                        controller.isHovering.value ? 1.0 : 0.0,
-                                    child: Text(
+                              child: SizedBox(
+                                width: 65,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Icon(
+                                      Icons.play_arrow,
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x3F000000),
+                                          blurRadius: 6,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                      size: 24,
+                                      color:
+                                          controller.hoveredIcon.value == 'play'
+                                              ? const Color(0xFFB8B8B8)
+                                              : const Color(0xFF6D6D6D),
+                                    )
+                                        .animate(
+                                          autoPlay: false,
+                                          controller:
+                                              controller.playAnimateController,
+                                        )
+                                        .scale(
+                                          begin: const Offset(1, 1),
+                                          end: const Offset(1.3, 1.3),
+                                          duration:
+                                              const Duration(milliseconds: 100),
+                                        ),
+                                    Text(
                                       'Run',
                                       style: TextStyle(
                                         fontFamily: 'Inter',
@@ -1448,41 +1470,71 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                ],
+                                    )
+                                        .animate(
+                                          autoPlay: false,
+                                          controller:
+                                              controller.hoverAnimateController,
+                                        )
+                                        .fade(
+                                          begin: 0.0,
+                                          end: 1.0,
+                                          duration:
+                                              const Duration(milliseconds: 150),
+                                        ),
+                                  ],
+                                ),
                               ),
                             ),
                             InkWell(
                               hoverColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               onHover: (hover) {
-                                controller.hoveredIcon.value =
-                                    hover ? 'pause' : '';
+                                if (hover) {
+                                  controller.hoveredIcon.value = 'pause';
+                                  controller.pauseAnimateController.forward();
+                                } else {
+                                  controller.hoveredIcon.value = '';
+                                  controller.pauseAnimateController.reverse();
+                                }
                               },
                               onTap: () {},
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Icon(
-                                    Icons.pause,
-                                    shadows: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 6,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                    size: controller.isHovering.value ? 30 : 24,
-                                    color:
-                                        controller.hoveredIcon.value == 'pause'
-                                            ? const Color(0xFFB8B8B8)
-                                            : const Color(0xFF6D6D6D),
-                                  ),
-                                  Opacity(
-                                    opacity:
-                                        controller.isHovering.value ? 1.0 : 0.0,
-                                    child: Text(
+                              child: SizedBox(
+                                width: 65,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Icon(
+                                      Icons.pause,
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x3F000000),
+                                          blurRadius: 6,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                      size: 24,
+                                      color: controller.hoveredIcon.value ==
+                                              'pause'
+                                          ? const Color(0xFFB8B8B8)
+                                          : const Color(0xFF6D6D6D),
+                                    )
+                                        .animate(
+                                          autoPlay: false,
+                                          controller:
+                                              controller.pauseAnimateController,
+                                        )
+                                        .scale(
+                                          begin: const Offset(1, 1),
+                                          end: const Offset(1.3, 1.3),
+                                          duration:
+                                              const Duration(milliseconds: 100),
+                                        ),
+                                    Text(
                                       'Pause',
                                       style: TextStyle(
                                         fontFamily: 'Inter',
@@ -1501,41 +1553,71 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                ],
+                                    )
+                                        .animate(
+                                          autoPlay: false,
+                                          controller:
+                                              controller.hoverAnimateController,
+                                        )
+                                        .fade(
+                                          begin: 0.0,
+                                          end: 1.0,
+                                          duration:
+                                              const Duration(milliseconds: 150),
+                                        ),
+                                  ],
+                                ),
                               ),
                             ),
                             InkWell(
                               hoverColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               onHover: (hover) {
-                                controller.hoveredIcon.value =
-                                    hover ? 'lock' : '';
+                                if (hover) {
+                                  controller.hoveredIcon.value = 'lock';
+                                  controller.lockAnimateController.forward();
+                                } else {
+                                  controller.hoveredIcon.value = '';
+                                  controller.lockAnimateController.reverse();
+                                }
                               },
                               onTap: controller.lockScreen,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Icon(
-                                    Icons.lock,
-                                    shadows: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 6,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                    size: controller.isHovering.value ? 30 : 24,
-                                    color:
-                                        controller.hoveredIcon.value == 'lock'
-                                            ? const Color(0xFFB8B8B8)
-                                            : const Color(0xFF6D6D6D),
-                                  ),
-                                  Opacity(
-                                    opacity:
-                                        controller.isHovering.value ? 1.0 : 0.0,
-                                    child: Text(
+                              child: SizedBox(
+                                width: 65,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Icon(
+                                      Icons.lock,
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x3F000000),
+                                          blurRadius: 6,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                      size: 24,
+                                      color:
+                                          controller.hoveredIcon.value == 'lock'
+                                              ? const Color(0xFFB8B8B8)
+                                              : const Color(0xFF6D6D6D),
+                                    )
+                                        .animate(
+                                          autoPlay: false,
+                                          controller:
+                                              controller.lockAnimateController,
+                                        )
+                                        .scale(
+                                          begin: const Offset(1, 1),
+                                          end: const Offset(1.3, 1.3),
+                                          duration:
+                                              const Duration(milliseconds: 100),
+                                        ),
+                                    Text(
                                       'Lock',
                                       style: TextStyle(
                                         fontFamily: 'Inter',
@@ -1554,46 +1636,76 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                ],
+                                    )
+                                        .animate(
+                                          autoPlay: false,
+                                          controller:
+                                              controller.hoverAnimateController,
+                                        )
+                                        .fade(
+                                          begin: 0.0,
+                                          end: 1.0,
+                                          duration:
+                                              const Duration(milliseconds: 150),
+                                        ),
+                                  ],
+                                ),
                               ),
                             ),
                             Builder(
                               builder: (context) {
                                 return InkWell(
                                   hoverColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   onHover: (hover) {
-                                    controller.hoveredIcon.value =
-                                        hover ? 'settings' : '';
+                                    if (hover) {
+                                      controller.hoveredIcon.value = 'settings';
+                                      controller.settingsAnimateController
+                                          .forward();
+                                    } else {
+                                      controller.hoveredIcon.value = '';
+                                      controller.settingsAnimateController
+                                          .reverse();
+                                    }
                                   },
                                   onTap: () {},
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Icon(
-                                        Icons.settings,
-                                        shadows: const [
-                                          BoxShadow(
-                                            color: Color(0x3F000000),
-                                            blurRadius: 6,
-                                            offset: Offset(0, 4),
-                                            spreadRadius: 0,
-                                          )
-                                        ],
-                                        size: controller.isHovering.value
-                                            ? 30
-                                            : 24,
-                                        color: controller.hoveredIcon.value ==
-                                                'settings'
-                                            ? const Color(0xFFB8B8B8)
-                                            : const Color(0xFF6D6D6D),
-                                      ),
-                                      Opacity(
-                                        opacity: controller.isHovering.value
-                                            ? 1.0
-                                            : 0.0,
-                                        child: Text(
+                                  child: SizedBox(
+                                    width: 65,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Icon(
+                                          Icons.settings,
+                                          shadows: const [
+                                            BoxShadow(
+                                              color: Color(0x3F000000),
+                                              blurRadius: 6,
+                                              offset: Offset(0, 4),
+                                              spreadRadius: 0,
+                                            )
+                                          ],
+                                          size: 24,
+                                          color: controller.hoveredIcon.value ==
+                                                  'settings'
+                                              ? const Color(0xFFB8B8B8)
+                                              : const Color(0xFF6D6D6D),
+                                        )
+                                            .animate(
+                                              autoPlay: false,
+                                              controller: controller
+                                                  .settingsAnimateController,
+                                            )
+                                            .scale(
+                                              begin: const Offset(1, 1),
+                                              end: const Offset(1.3, 1.3),
+                                              duration: const Duration(
+                                                  milliseconds: 100),
+                                            ),
+                                        Text(
                                           'Settings',
                                           style: TextStyle(
                                             fontFamily: 'Inter',
@@ -1613,9 +1725,20 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ),
-                                    ],
+                                        )
+                                            .animate(
+                                              autoPlay: false,
+                                              controller: controller
+                                                  .hoverAnimateController,
+                                            )
+                                            .fade(
+                                              begin: 0.0,
+                                              end: 1.0,
+                                              duration: const Duration(
+                                                  milliseconds: 150),
+                                            ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               },

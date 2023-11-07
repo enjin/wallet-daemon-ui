@@ -1,6 +1,5 @@
 import 'package:enjin_wallet_daemon/core/app_export.dart';
 import 'package:enjin_wallet_daemon/routes/app_pages.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../../../main.dart';

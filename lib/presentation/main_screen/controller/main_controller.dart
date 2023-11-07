@@ -14,13 +14,29 @@ import '../../../main.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/daemon_service.dart';
 import '../../../services/store_service.dart';
-import '../../lock_screen/controller/lock_controller.dart';
 
-class MainController extends GetxController {
+class MainController extends GetxController with GetTickerProviderStateMixin {
   static MainController get to => Get.find();
 
-  final isHovering = false.obs;
   final hoveredIcon = ''.obs;
+
+  late AnimationController hoverAnimateController;
+  late AnimationController playAnimateController;
+  late AnimationController pauseAnimateController;
+  late AnimationController lockAnimateController;
+  late AnimationController settingsAnimateController;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+
+    hoverAnimateController = AnimationController(vsync: this);
+    playAnimateController = AnimationController(vsync: this);
+    pauseAnimateController = AnimationController(vsync: this);
+    lockAnimateController = AnimationController(vsync: this);
+    settingsAnimateController = AnimationController(vsync: this);
+  }
 
   Terminal terminal = Terminal();
   TerminalController terminalController = TerminalController();
