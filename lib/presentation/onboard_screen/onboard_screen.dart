@@ -8,6 +8,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../widgets/custom_outlined_button.dart';
 
 class OnboardScreen extends GetWidget<OnboardController> {
+  static const String routeName = '/Onboard';
   OnboardScreen({super.key});
 
   final pageController = PageController(viewportFraction: 1.0, keepPage: true);

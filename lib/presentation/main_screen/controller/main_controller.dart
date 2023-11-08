@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:enjin_wallet_daemon/core/app_export.dart';
+import 'package:enjin_wallet_daemon/presentation/lock_screen/lock_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
@@ -63,7 +64,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
   List<String> output = [];
 
   void lockScreen() {
-    Get.offNamed(Routes.lock.nameToRoute());
+    Get.offNamed(LockScreen.routeName);
   }
 
 //   Future<void> lockScreen() async {

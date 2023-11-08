@@ -1,4 +1,5 @@
 import 'package:enjin_wallet_daemon/core/app_export.dart';
+import 'package:enjin_wallet_daemon/presentation/main_screen/main_screen.dart';
 import 'package:enjin_wallet_daemon/routes/app_pages.dart';
 
 import '../../../main.dart';
@@ -41,6 +42,6 @@ class OnboardController extends GetxController {
     final store = getIt.get<StoreService>();
     await store.init(password.value);
 
-    Get.offNamed(Routes.main.nameToRoute());
+    Get.offNamed(MainScreen.routeName);
   }
 }

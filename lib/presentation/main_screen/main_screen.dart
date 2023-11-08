@@ -12,6 +12,7 @@ import 'controller/main_controller.dart';
 
 // ignore_for_file: must_be_immutable
 class MainScreen extends GetWidget<MainController> with WindowListener {
+  static const String routeName = '/Main';
   MainScreen({super.key});
 
   Terminal terminal = Terminal();
