@@ -931,8 +931,9 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
 
                       await controller
                           .setWalletPassword(passwordController.text);
-                      await controller.runWallet();
                       Navigator.pop(context);
+
+                      await controller.runWallet();
                     },
                     elevation: 0,
                     padding: const EdgeInsets.all(0),
@@ -975,8 +976,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                   MaterialButton(
                     onPressed: () async {
                       await controller.randomWalletPassword();
-                      await controller.runWallet();
                       Navigator.of(context).pop();
+                      await controller.runWallet();
                     },
                     elevation: 0,
                     padding: const EdgeInsets.all(0),
