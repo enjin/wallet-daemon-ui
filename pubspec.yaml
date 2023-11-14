@@ -21,7 +21,6 @@ dependencies:
   sembast: ^3.5.0+1
   encrypt: ^5.0.0
   crypto: ^3.0.0
-  get_it: ^7.6.4
   window_manager: ^0.3.7
   get: ^4.6.6
   outline_gradient_button: ^2.0.0+1
