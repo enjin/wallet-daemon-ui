@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import '../../widgets/custom_outlined_button.dart';
 
 class OnboardScreen extends GetWidget<OnboardController> {
+  static const String routeName = '/Onboard';
   const OnboardScreen({super.key});
 
   @override

@@ -1,4 +1,5 @@
 import 'package:daemon/core/app_export.dart';
+import 'package:daemon/presentation/main_screen/main_screen.dart';
 import 'package:daemon/routes/app_pages.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -47,7 +48,7 @@ class LockController extends GetxController with WindowListener {
     }
 
     if (await getIt.get<StoreService>().init(password.value)) {
-      Get.offNamed(Routes.main.nameToRoute());
+      Get.offNamed(MainScreen.routeName);
 
       return;
     }

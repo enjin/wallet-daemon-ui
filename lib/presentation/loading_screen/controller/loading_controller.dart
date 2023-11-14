@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:daemon/presentation/lock_screen/lock_screen.dart';
+import 'package:daemon/presentation/onboard_screen/onboard_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:download_assets/download_assets.dart';
 import 'package:daemon/core/app_export.dart';
@@ -42,8 +44,8 @@ class LoadingController extends GetxController {
     Future.delayed(
       const Duration(seconds: 1),
       () => hasDatabase
-          ? Get.offNamed(Routes.lock.nameToRoute())
-          : Get.offNamed(Routes.onboard.nameToRoute()),
+          ? Get.offNamed(LockScreen.routeName)
+          : Get.offNamed(OnboardScreen.routeName),
     );
   }
 

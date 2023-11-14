@@ -8,32 +8,30 @@ import 'package:daemon/presentation/onboard_screen/binding/onboard_biding.dart';
 import 'package:daemon/presentation/onboard_screen/onboard_screen.dart';
 import 'package:get/get.dart';
 
-part 'app_routes.dart';
-
 class AppPages {
-  static String init = Routes.loading.nameToRoute();
+  static String init = LoadingScreen.routeName;
 
   static final routes = [
     GetPage(
-      name: Routes.loading.nameToRoute(),
+      name: LoadingScreen.routeName,
       page: () => const LoadingScreen(),
       title: 'Loading',
       binding: LoadingBiding(),
     ),
     GetPage(
-      name: Routes.onboard.nameToRoute(),
+      name: OnboardScreen.routeName,
       page: () => const OnboardScreen(),
       title: 'Onboard',
       binding: OnboardBiding(),
     ),
     GetPage(
-      name: Routes.main.nameToRoute(),
+      name: MainScreen.routeName,
       page: () => MainScreen(),
       title: 'Main',
       binding: MainBinding(),
     ),
     GetPage(
-      name: Routes.lock.nameToRoute(),
+      name: LockScreen.routeName,
       page: () => const LockScreen(),
       title: 'Lock',
       binding: LockBinding(),

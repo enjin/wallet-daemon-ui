@@ -4,6 +4,7 @@ import 'controller/lock_controller.dart';
 
 // ignore_for_file: must_be_immutable
 class LockScreen extends GetView<LockController> {
+  static const String routeName = '/Lock';
   const LockScreen({super.key});
 
   @override

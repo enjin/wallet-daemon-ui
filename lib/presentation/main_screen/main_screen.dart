@@ -1,4 +1,5 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:daemon/presentation/lock_screen/lock_screen.dart';
 import 'package:daemon/routes/app_pages.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sembast/sembast.dart';
@@ -14,6 +15,7 @@ import 'controller/main_controller.dart';
 
 // ignore_for_file: must_be_immutable
 class MainScreen extends GetWidget<MainController> with WindowListener {
+  static const String routeName = '/Main';
   MainScreen({super.key});
 
   Terminal terminal = Terminal();
@@ -548,7 +550,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                         .init(passwordController.text);
 
                     if (!hasAccess) {
-                      Get.offNamed(Routes.lock.nameToRoute());
+                      Get.offNamed(LockScreen.routeName);
                       return;
                     }
 

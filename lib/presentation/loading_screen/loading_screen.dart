@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:daemon/core/app_export.dart';
 
 class LoadingScreen extends GetWidget<LoadingController> {
+  static const String routeName = '/Loading';
   const LoadingScreen({Key? key}) : super(key: key);
 
   @override
