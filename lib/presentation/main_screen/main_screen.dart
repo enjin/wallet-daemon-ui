@@ -8,7 +8,6 @@ import 'package:xterm/core.dart';
 import 'package:xterm/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:daemon/core/app_export.dart';
-import '../../main.dart';
 import '../../services/store_service.dart';
 import 'controller/main_controller.dart';
 
@@ -37,17 +36,17 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
   Future<WidgetBuilder> get _showCustomPlatformDialog async {
     controller.platformEndpoint.value = await controller.store
             .record('enjin.custom.api.key')
-            .get(getIt.get<StoreService>().db!) as String? ??
+            .get(StoreService.instance.db!) as String? ??
         '';
 
     controller.authToken.value = await controller.store
             .record('enjin.custom.api.url')
-            .get(getIt.get<StoreService>().db!) as String? ??
+            .get(StoreService.instance.db!) as String? ??
         '';
 
     controller.rpcNode.value = await controller.store
             .record('enjin.custom.node.url')
-            .get(getIt.get<StoreService>().db!) as String? ??
+            .get(StoreService.instance.db!) as String? ??
         '';
 
     TextEditingController platformEndpointController =
@@ -542,9 +541,8 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
               children: [
                 MaterialButton(
                   onPressed: () async {
-                    await getIt.get<StoreService>().close();
-                    final bool hasAccess = await getIt
-                        .get<StoreService>()
+                    await StoreService.instance.close();
+                    final bool hasAccess = await StoreService.instance
                         .init(passwordController.text);
 
                     if (!hasAccess) {
@@ -1019,11 +1017,11 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
   Future<WidgetBuilder> get _localDialogBuilder async {
     controller.enjinMatrixKey.value = await controller.store
             .record('enjin.matrix.api.key')
-            .get(getIt.get<StoreService>().db!) as String? ??
+            .get(StoreService.instance.db!) as String? ??
         '';
     controller.canaryMatrixKey.value = await controller.store
             .record('enjin.canary.api.key')
-            .get(getIt.get<StoreService>().db!) as String? ??
+            .get(StoreService.instance.db!) as String? ??
         '';
 
     final TextEditingController enjinMatrixKey =
@@ -1247,7 +1245,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                             if (controller.isSeedObscure.value == true) {
                               bool seedExists = await controller.store
                                   .record('enjin.daemon.seed')
-                                  .exists(getIt.get<StoreService>().db!);
+                                  .exists(StoreService.instance.db!);
 
                               if (!seedExists) {
                                 await showAlert(context);

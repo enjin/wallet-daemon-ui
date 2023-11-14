@@ -1,7 +1,6 @@
 import 'package:daemon/core/app_export.dart';
 import 'package:daemon/routes/app_pages.dart';
 
-import '../../../main.dart';
 import '../../../services/store_service.dart';
 import 'package:flutter/material.dart';
 
@@ -59,8 +58,7 @@ class OnboardController extends GetxController
       return;
     }
 
-    final store = getIt.get<StoreService>();
-    await store.init(password.value);
+    await StoreService.instance.init(password.value);
 
     Get.offNamed(Routes.main.nameToRoute());
   }

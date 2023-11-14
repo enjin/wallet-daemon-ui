@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 
 class DaemonService {
+  static final DaemonService _singleton = DaemonService._();
+  static DaemonService get instance => _singleton;
+  DaemonService._();
+
   Process? daemon;
 
   bool get isRunning => daemon != null;
