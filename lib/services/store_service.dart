@@ -10,6 +10,10 @@ import 'encrypted_database_factory.dart';
 import 'package:path/path.dart' as p;
 
 class StoreService {
+  static final StoreService _singleton = StoreService._();
+  static StoreService get instance => _singleton;
+  StoreService._();
+
   final FocusNode focusNode = FocusNode();
   Database? db;
 

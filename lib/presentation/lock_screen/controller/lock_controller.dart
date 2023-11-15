@@ -2,7 +2,6 @@ import 'package:daemon/core/app_export.dart';
 import 'package:daemon/routes/app_pages.dart';
 import 'package:window_manager/window_manager.dart';
 
-import '../../../main.dart';
 import '../../../services/daemon_service.dart';
 import '../../../services/store_service.dart';
 
@@ -38,7 +37,7 @@ class LockController extends GetxController with WindowListener {
 
   @override
   void onWindowClose() {
-    getIt.get<DaemonService>().stopWallet();
+    DaemonService.instance.stopWallet();
   }
 
   Future<void> checkPassword() async {
@@ -46,7 +45,7 @@ class LockController extends GetxController with WindowListener {
       return;
     }
 
-    if (await getIt.get<StoreService>().init(password.value)) {
+    if (await StoreService.instance.init(password.value)) {
       Get.offNamed(Routes.main.nameToRoute());
 
       return;

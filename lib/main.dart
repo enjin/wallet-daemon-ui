@@ -1,21 +1,13 @@
 import 'package:daemon/presentation/lock_screen/controller/lock_controller.dart';
 import 'package:daemon/routes/app_pages.dart';
-import 'package:daemon/services/daemon_service.dart';
-import 'package:daemon/services/store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'localization/app_localization.dart';
 
-final getIt = GetIt.instance;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  getIt.registerSingleton<StoreService>(StoreService());
-  getIt.registerSingleton<DaemonService>(DaemonService());
 
   Get.lazyPut(() => LockController());
 

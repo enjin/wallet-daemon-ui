@@ -11,7 +11,6 @@ import 'package:window_manager/window_manager.dart';
 import 'package:xterm/core.dart';
 import 'package:xterm/ui.dart';
 
-import '../../../main.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/daemon_service.dart';
 import '../../../services/store_service.dart';
@@ -62,7 +61,7 @@ class MainController extends GetxController
 
   @override
   void onWindowClose() {
-    getIt.get<DaemonService>().stopWallet();
+    DaemonService.instance.stopWallet();
   }
 
   Terminal terminal = Terminal();
@@ -105,10 +104,10 @@ class MainController extends GetxController
   Future<void> saveSeed(String seed, String storeName) async {
     await store
         .record('enjin.daemon.seed')
-        .put(getIt.get<StoreService>().db!, seed);
+        .put(StoreService.instance.db!, seed);
     await store
         .record('enjin.daemon.store')
-        .put(getIt.get<StoreService>().db!, storeName);
+        .put(StoreService.instance.db!, storeName);
   }
 
   Future<void> saveStoreFile() async {
@@ -127,7 +126,7 @@ class MainController extends GetxController
   final address = ''.obs;
 
   void addToOutput(dynamic otp) async {
-    if (!getIt.get<DaemonService>().hasAddress) {
+    if (!DaemonService.instance.hasAddress) {
       final search = [...otp.split('\n'), ...otp.split(' ')];
       for (String word in search) {
         final prefix = currentNetwork == 'enjin-matrix' ? 'ef' : 'cx';
@@ -136,7 +135,7 @@ class MainController extends GetxController
 
           address.value = addr;
           walletAddress.text = addr;
-          getIt.get<DaemonService>().address = addr;
+          DaemonService.instance.address = addr;
           walletEditPassword.text = addr;
         }
       }
@@ -155,17 +154,17 @@ class MainController extends GetxController
   Future<String?> getPlainSeed() async {
     return await store
         .record('enjin.daemon.seed')
-        .get(getIt.get<StoreService>().db!) as String?;
+        .get(StoreService.instance.db!) as String?;
   }
 
   Future<bool> loadSeed() async {
     final String? seed = await store
         .record('enjin.daemon.seed')
-        .get(getIt.get<StoreService>().db!) as String?;
+        .get(StoreService.instance.db!) as String?;
 
     final String? storeFile = await store
         .record('enjin.daemon.store')
-        .get(getIt.get<StoreService>().db!) as String?;
+        .get(StoreService.instance.db!) as String?;
 
     if (seed != null && storeFile != null) {
       final dir = await getApplicationSupportDirectory();
@@ -182,7 +181,7 @@ class MainController extends GetxController
   }
 
   void checkIsRunning() {
-    isRunning.value = getIt.get<DaemonService>().isRunning;
+    isRunning.value = DaemonService.instance.isRunning;
   }
 
   Future<void> runWallet() async {
@@ -195,17 +194,17 @@ class MainController extends GetxController
     if (currentNetwork.value == 'enjin-matrix') {
       platformKey = await store
               .record('enjin.matrix.api.key')
-              .get(getIt.get<StoreService>().db!) as String? ??
+              .get(StoreService.instance.db!) as String? ??
           '';
     } else if (currentNetwork.value == 'canary-matrix') {
       platformKey = await store
               .record('enjin.canary.api.key')
-              .get(getIt.get<StoreService>().db!) as String? ??
+              .get(StoreService.instance.db!) as String? ??
           '';
     } else {
       platformKey = await store
               .record('enjin.custom.api.key')
-              .get(getIt.get<StoreService>().db!) as String? ??
+              .get(StoreService.instance.db!) as String? ??
           '';
     }
 
@@ -216,14 +215,14 @@ class MainController extends GetxController
 
     final hasSeed = await loadSeed();
 
-    await getIt.get<DaemonService>().runWallet(
-          walletApp: walletApp,
-          walletPassword: walletPassword,
-          platformKey: platformKey,
-          configFile: configFile,
-          workingDir: workingDir,
-          addToOutput: addToOutput,
-        );
+    await DaemonService.instance.runWallet(
+      walletApp: walletApp,
+      walletPassword: walletPassword,
+      platformKey: platformKey,
+      configFile: configFile,
+      workingDir: workingDir,
+      addToOutput: addToOutput,
+    );
 
     checkIsRunning();
   }
@@ -239,7 +238,7 @@ class MainController extends GetxController
 
   Future<void> stopWallet() async {
     if (isRunning.value == true) {
-      getIt.get<DaemonService>().stopWallet();
+      DaemonService.instance.stopWallet();
       await deleteStoreDir();
     }
 
@@ -249,13 +248,13 @@ class MainController extends GetxController
   Future<void> setPlatformConfig(String node, String api, String token) async {
     await store
         .record('enjin.custom.api.key')
-        .put(getIt.get<StoreService>().db!, token);
+        .put(StoreService.instance.db!, token);
     await store
         .record('enjin.custom.api.url')
-        .put(getIt.get<StoreService>().db!, api);
+        .put(StoreService.instance.db!, api);
     await store
         .record('enjin.custom.node.url')
-        .put(getIt.get<StoreService>().db!, node);
+        .put(StoreService.instance.db!, node);
 
     await setDaemonConfigFile(api, node);
   }
@@ -263,10 +262,10 @@ class MainController extends GetxController
   Future<void> setDefaultAuthKeys(String authEnjin, String authCanary) async {
     await store
         .record('enjin.matrix.api.key')
-        .put(getIt.get<StoreService>().db!, authEnjin);
+        .put(StoreService.instance.db!, authEnjin);
     await store
         .record('enjin.canary.api.key')
-        .put(getIt.get<StoreService>().db!, authCanary);
+        .put(StoreService.instance.db!, authCanary);
   }
 
   Future<void> randomWalletPassword() async {
@@ -277,25 +276,25 @@ class MainController extends GetxController
   Future<void> setWalletPassword(String password) async {
     await store
         .record('enjin.wallet.password')
-        .put(getIt.get<StoreService>().db!, password);
+        .put(StoreService.instance.db!, password);
     walletPassword = password;
   }
 
   void loadData() async {
     final String? password = await store
         .record('enjin.wallet.password')
-        .get(getIt.get<StoreService>().db!) as String?;
+        .get(StoreService.instance.db!) as String?;
     final String? selectedNetwork = await store
         .record('enjin.current.platform')
-        .get(getIt.get<StoreService>().db!) as String?;
+        .get(StoreService.instance.db!) as String?;
 
     checkIsRunning();
 
-    if (isRunning.value == true && getIt.get<DaemonService>().hasAddress) {
-      String addr = getIt.get<DaemonService>().address!;
+    if (isRunning.value == true && DaemonService.instance.hasAddress) {
+      String addr = DaemonService.instance.address!;
       walletEditPassword.text = addr;
       address.value = addr;
-      getIt.get<DaemonService>().setCallback(addToOutput: addToOutput);
+      DaemonService.instance.setCallback(addToOutput: addToOutput);
     }
 
     walletPassword = password ?? '';
@@ -305,7 +304,7 @@ class MainController extends GetxController
   Future<void> setCurrentNetwork(String network) async {
     await store
         .record('enjin.current.platform')
-        .put(getIt.get<StoreService>().db!, network);
+        .put(StoreService.instance.db!, network);
 
     currentNetwork.value = network;
   }
@@ -313,6 +312,6 @@ class MainController extends GetxController
   Future<void> writeLockPassword(String password) async {
     await store
         .record('enjin.lock.password')
-        .put(getIt.get<StoreService>().db!, password);
+        .put(StoreService.instance.db!, password);
   }
 }
