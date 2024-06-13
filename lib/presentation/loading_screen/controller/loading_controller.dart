@@ -20,7 +20,6 @@ class LoadingController extends GetxController {
 
   Future<void> _checkDependencies() async {
     final Directory appDir = await getApplicationSupportDirectory();
-    print(appDir.path);
 
     final DownloadAssetsController downloadAssetsController =
         DownloadAssetsController();
