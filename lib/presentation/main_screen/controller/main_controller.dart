@@ -132,7 +132,7 @@ class MainController extends GetxController
     if (!DaemonService.instance.hasAddress) {
       final search = [...otp.split('\n'), ...otp.split(' ')];
       for (String word in search) {
-        final prefix = currentNetwork == 'enjin-matrix' ? 'ef' : 'cx';
+        final prefix = currentNetwork.value == 'enjin-matrix' ? 'ef' : 'cx';
         if (word.startsWith(prefix)) {
           String addr = word.split('\n')[0];
 
