@@ -216,7 +216,7 @@ class MainController extends GetxController
     String walletApp = '$workingDir/wallet';
     String configFile = '$workingDir/config.json';
 
-    final hasSeed = await loadSeed();
+    await loadSeed();
 
     await DaemonService.instance.runWallet(
       walletApp: walletApp,
@@ -231,12 +231,12 @@ class MainController extends GetxController
   }
 
   Future<void> deleteStoreDir() async {
-    final directory = await getApplicationSupportDirectory();
-    String path = p.join(directory.path, 'store');
-    Directory dir = Directory(path);
-    if (dir.existsSync()) {
-      dir.delete(recursive: true);
-    }
+    // final directory = await getApplicationSupportDirectory();
+    // String path = p.join(directory.path, 'store');
+    // Directory dir = Directory(path);
+    // if (dir.existsSync()) {
+    //   dir.delete(recursive: true);
+    // }
   }
 
   Future<void> stopWallet() async {
