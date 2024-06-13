@@ -326,6 +326,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                         onPressed: () async {
                           await controller.setPlatformConfig(
                             controller.rpcNode.value,
+                            controller.relayNode.value,
                             controller.platformEndpoint.value,
                             controller.authToken.value,
                           );
@@ -665,7 +666,7 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
               Container(
                 width: 345,
                 height: 112,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -1038,8 +1039,9 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
           color: Colors.transparent,
           child: Container(
             width: 310,
-            height: 426,
-            padding: const EdgeInsets.all(29),
+            height: 425,
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 19),
             decoration: ShapeDecoration(
               color: const Color(0xFF494949),
               shape: RoundedRectangleBorder(
@@ -2119,8 +2121,12 @@ class MainScreen extends GetWidget<MainController> with WindowListener {
                       String node = value == 'enjin-matrix'
                           ? 'wss://rpc.matrix.blockchain.enjin.io:443'
                           : 'wss://rpc.matrix.canary.enjin.io:443';
+                      String relayNode = value == 'enjin-matrix'
+                          ? 'wss://rpc.relay.blockchain.enjin.io:443'
+                          : 'wss://rpc.relay.canary.enjin.io:443';
 
-                      await controller.setDaemonConfigFile(api, node);
+                      await controller.setDaemonConfigFile(
+                          api, node, relayNode);
                       await controller.setCurrentNetwork(value!);
                       await controller.stopWallet();
                     },
