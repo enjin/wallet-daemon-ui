@@ -35,6 +35,7 @@ class MainController extends GetxController
   final platformEndpoint = ''.obs;
   final authToken = ''.obs;
   final rpcNode = ''.obs;
+  final relayNode = ''.obs;
 
   final enjinMatrixKey = ''.obs;
   final canaryMatrixKey = ''.obs;
@@ -86,9 +87,11 @@ class MainController extends GetxController
     Get.offNamed(Routes.lock.nameToRoute());
   }
 
-  Future<void> setDaemonConfigFile(String api, String node) async {
+  Future<void> setDaemonConfigFile(
+      String api, String node, String relayNode) async {
     final config = {
       "node": node,
+      "relay_node": relayNode,
       "api": api,
       "master_key": "store",
     };
@@ -129,7 +132,7 @@ class MainController extends GetxController
     if (!DaemonService.instance.hasAddress) {
       final search = [...otp.split('\n'), ...otp.split(' ')];
       for (String word in search) {
-        final prefix = currentNetwork == 'enjin-matrix' ? 'ef' : 'cx';
+        final prefix = currentNetwork.value == 'enjin-matrix' ? 'ef' : 'cx';
         if (word.startsWith(prefix)) {
           String addr = word.split('\n')[0];
 
@@ -213,7 +216,7 @@ class MainController extends GetxController
     String walletApp = '$workingDir/wallet';
     String configFile = '$workingDir/config.json';
 
-    final hasSeed = await loadSeed();
+    await loadSeed();
 
     await DaemonService.instance.runWallet(
       walletApp: walletApp,
@@ -228,12 +231,12 @@ class MainController extends GetxController
   }
 
   Future<void> deleteStoreDir() async {
-    final directory = await getApplicationSupportDirectory();
-    String path = p.join(directory.path, 'store');
-    Directory dir = Directory(path);
-    if (dir.existsSync()) {
-      dir.delete(recursive: true);
-    }
+    // final directory = await getApplicationSupportDirectory();
+    // String path = p.join(directory.path, 'store');
+    // Directory dir = Directory(path);
+    // if (dir.existsSync()) {
+    //   dir.delete(recursive: true);
+    // }
   }
 
   Future<void> stopWallet() async {
@@ -245,7 +248,8 @@ class MainController extends GetxController
     checkIsRunning();
   }
 
-  Future<void> setPlatformConfig(String node, String api, String token) async {
+  Future<void> setPlatformConfig(
+      String node, String relayNode, String api, String token) async {
     await store
         .record('enjin.custom.api.key')
         .put(StoreService.instance.db!, token);
@@ -255,8 +259,11 @@ class MainController extends GetxController
     await store
         .record('enjin.custom.node.url')
         .put(StoreService.instance.db!, node);
+    await store
+        .record('enjin.custom.relay.url')
+        .put(StoreService.instance.db!, relayNode);
 
-    await setDaemonConfigFile(api, node);
+    await setDaemonConfigFile(api, node, relayNode);
   }
 
   Future<void> setDefaultAuthKeys(String authEnjin, String authCanary) async {

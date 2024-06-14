@@ -421,12 +421,6 @@ class SigningPage extends StatelessWidget {
                     ),
                     onPressed: () {
                       pageController.jumpToPage(0);
-                      // pageController.previousPage(
-                      //   duration: const Duration(
-                      //     milliseconds: 300,
-                      //   ),
-                      //   curve: Curves.easeInOut,
-                      // );
                     },
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -448,12 +442,6 @@ class SigningPage extends StatelessWidget {
                     buttonStyle: CustomButtonStyles.none,
                     onPressed: () {
                       pageController.jumpToPage(2);
-                      // pageController.nextPage(
-                      //   duration: const Duration(
-                      //     milliseconds: 300,
-                      //   ),
-                      //   curve: Curves.easeInOut,
-                      // );
                     },
                     decoration: CustomButtonStyles
                         .gradientDeepPurpleToDeepPurpleDecoration,
