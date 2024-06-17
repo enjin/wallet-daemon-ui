@@ -1,7 +1,7 @@
 name: daemon
 description: Enjin Wallet Daemon for Windows, macOS, and Linux
 publish_to: 'none'
-version: 2.1.0+1
+version: 2.1.1+1
 
 environment:
   sdk: ^3.4.0
