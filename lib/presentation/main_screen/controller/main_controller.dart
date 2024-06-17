@@ -295,6 +295,22 @@ class MainController extends GetxController
         .record('enjin.current.platform')
         .get(StoreService.instance.db!) as String?;
 
+    String api = selectedNetwork == 'enjin-matrix'
+        ? 'https://platform.enjin.io/graphql'
+        : 'https://platform.canary.enjin.io/graphql';
+    String node = selectedNetwork == 'enjin-matrix'
+        ? 'wss://rpc.matrix.blockchain.enjin.io:443'
+        : 'wss://rpc.matrix.canary.enjin.io:443';
+    String relayNode = selectedNetwork == 'enjin-matrix'
+        ? 'wss://rpc.relay.blockchain.enjin.io:443'
+        : 'wss://rpc.relay.canary.enjin.io:443';
+
+    await setDaemonConfigFile(
+      api,
+      node,
+      relayNode,
+    );
+
     checkIsRunning();
 
     if (isRunning.value == true && DaemonService.instance.hasAddress) {
