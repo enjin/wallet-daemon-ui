@@ -31,9 +31,9 @@ final Map<String, String> enUs = {
   // Four Screen
   "lbl_bananananana": "bananananana|",
   "lbl_repeat_password": "Repeat password",
-  "msg_least_16_characters": "least 16 characters.",
+  "msg_least_16_characters": "least 10 characters.",
   "msg_your_password_must":
-      "Your password must contain at\nleast 16 characters.",
+      "Your password must contain at\nleast 10 characters.",
   "msg_your_password_must2": "Your password must contain at\n",
 
   // Five Screen
