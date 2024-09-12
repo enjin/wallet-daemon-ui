@@ -27,8 +27,8 @@ class OnboardController extends GetxController
   void onChangedRepeat(text) => repeat.value = text;
 
   String? get hasPasswordError =>
-      password.value.length < 16 && password.value.isNotEmpty
-          ? 'Password must be at least 16 characters long'
+      password.value.length < 10 && password.value.isNotEmpty
+          ? 'Password must be at least 10 characters long'
           : null;
 
   String? get hasRepeatError =>
@@ -37,7 +37,7 @@ class OnboardController extends GetxController
           : null;
 
   bool get isNextDisabled =>
-      password.value.length < 16 || repeat.value != password.value;
+      password.value.length < 10 || repeat.value != password.value;
 
   @override
   void onInit() {
@@ -54,7 +54,7 @@ class OnboardController extends GetxController
   }
 
   Future<void> setPassword() async {
-    if (password.value != repeat.value || password.value.length < 16) {
+    if (password.value != repeat.value || password.value.length < 10) {
       return;
     }
 

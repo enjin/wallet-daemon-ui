@@ -9,26 +9,15 @@ class CustomOutlinedButton extends BaseButton {
     this.leftIcon,
     this.rightIcon,
     this.label,
-    VoidCallback? onPressed,
-    ButtonStyle? buttonStyle,
-    TextStyle? buttonTextStyle,
-    bool? isDisabled,
-    Alignment? alignment,
-    double? height,
-    double? width,
-    EdgeInsets? margin,
-    required String text,
-  }) : super(
-          text: text,
-          onPressed: onPressed,
-          buttonStyle: buttonStyle,
-          isDisabled: isDisabled,
-          buttonTextStyle: buttonTextStyle,
-          height: height,
-          alignment: alignment,
-          width: width,
-          margin: margin,
-        );
+    super.onPressed,
+    super.buttonTextStyle,
+    super.isDisabled,
+    super.alignment,
+    super.height,
+    super.width,
+    super.margin,
+    required super.text,
+  });
 
   final BoxDecoration? decoration;
 
@@ -53,8 +42,7 @@ class CustomOutlinedButton extends BaseButton {
         width: width ?? double.maxFinite,
         margin: margin,
         decoration: decoration,
-        child: OutlinedButton(
-          style: buttonStyle,
+        child: MaterialButton(
           onPressed: isDisabled ?? false ? null : onPressed ?? () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
