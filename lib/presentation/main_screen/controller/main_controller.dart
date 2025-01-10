@@ -89,11 +89,13 @@ class MainController extends GetxController
 
   Future<void> setDaemonConfigFile(
       String api, String node, String relayNode) async {
+    final Directory appDir = await getApplicationSupportDirectory();
+
     final config = {
       "node": node,
       "relay_node": relayNode,
       "api": api,
-      "master_key": "store",
+      "master_key": "${appDir.path}/store",
     };
 
     final configJson = jsonEncode(config);
@@ -145,8 +147,6 @@ class MainController extends GetxController
 
       await saveStoreFile();
       await deleteStoreDir();
-
-      return;
     }
 
     terminal.write(otp.trim());
@@ -213,7 +213,7 @@ class MainController extends GetxController
 
     final directory = await getApplicationSupportDirectory();
     String workingDir = directory.path;
-    String walletApp = '$workingDir/wallet';
+    String walletApp = '$workingDir/wallet-daemon';
     String configFile = '$workingDir/config.json';
 
     await loadSeed();

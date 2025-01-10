@@ -9,28 +9,26 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  uuid: ^4.5.0
-  path: ^1.9.0
-  path_provider: ^2.1.4
+  uuid: ^4.5.1
+  path: ^1.9.1
+  path_provider: ^2.1.5
   download_assets: ^3.2.0
-  flutter_svg: ^2.0.10+1
+  flutter_svg: ^2.0.17
   xterm: ^4.0.0
   dio: ^5.7.0
-  convert: ^3.1.1
-  lottie: ^3.1.2
-  sembast: ^3.7.4
+  convert: ^3.1.2
+  lottie: ^3.3.0
+  sembast: ^3.8.1+1
   encrypt: ^5.0.3
-  crypto: ^3.0.5
-  window_manager: ^0.4.2
+  crypto: ^3.0.6
+  window_manager: ^0.4.3
   get: ^4.6.6
   outline_gradient_button: ^2.0.1+1
-  intl: ^0.19.0
+  intl: ^0.20.1
   aligned_dialog: ^0.0.7
-  flutter_animate: ^4.5.0
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   flutter_lints: ^4.0.0
   flutter_launcher_icons: ^0.13.1
 

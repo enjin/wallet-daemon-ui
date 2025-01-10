@@ -54,7 +54,7 @@ class DaemonService {
       },
       workingDirectory: workingDir,
     );
-
     logStream = daemon!.stdout.transform(utf8.decoder).listen(addToOutput);
+    daemon!.stderr.transform(utf8.decoder).listen(addToOutput);
   }
 }
