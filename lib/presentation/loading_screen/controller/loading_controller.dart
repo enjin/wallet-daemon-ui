@@ -60,7 +60,7 @@ class LoadingController extends GetxController {
       useFullDirectoryPath: true,
     );
 
-    return await downloadController.assetsFileExists('wallet');
+    return await downloadController.assetsFileExists('wallet-daemon');
   }
 
   Future<void> _downloadDaemon({
