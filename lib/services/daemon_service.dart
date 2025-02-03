@@ -44,17 +44,23 @@ class DaemonService {
       await Process.run("chmod", ["+x", walletApp]);
     }
 
-    daemon = await Process.start(
-      walletApp,
-      [],
-      environment: {
-        "KEY_PASS": walletPassword,
-        "PLATFORM_KEY": platformKey,
-        "CONFIG_FILE": configFile,
-      },
-      workingDirectory: workingDir,
-    );
-    logStream = daemon!.stdout.transform(utf8.decoder).listen(addToOutput);
-    daemon!.stderr.transform(utf8.decoder).listen(addToOutput);
+    try {
+      daemon = await Process.start(
+        walletApp,
+        [],
+        environment: {
+          "KEY_PASS": walletPassword,
+          "PLATFORM_KEY": platformKey,
+          "CONFIG_FILE": configFile,
+        },
+        runInShell: true,
+        workingDirectory: workingDir,
+      );
+      logStream = daemon!.stdout.transform(utf8.decoder).listen(addToOutput);
+      daemon!.stderr.transform(utf8.decoder).listen(addToOutput);
+    } catch (e) {
+      addToOutput('Failed to start Enjin Wallet Daemon service with error: $e');
+      stopWallet();
+    }
   }
 }

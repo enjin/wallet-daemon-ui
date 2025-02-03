@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:daemon/core/app_export.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/v4.dart';
 import 'package:window_manager/window_manager.dart';
@@ -149,9 +149,10 @@ class MainController extends GetxController
       await deleteStoreDir();
     }
 
-    terminal.write(otp.trim());
-    terminal.nextLine();
-    terminal.write('\n');
+    for (final line in otp.split('\n')) {
+      terminal.write(line.trim());
+      terminal.nextLine();
+    }
   }
 
   Future<String?> getPlainSeed() async {
