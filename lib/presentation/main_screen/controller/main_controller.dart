@@ -90,6 +90,9 @@ class MainController extends GetxController
   Future<void> setDaemonConfigFile(
       String api, String node, String relayNode) async {
     final Directory appDir = await getApplicationSupportDirectory();
+    if (appDir.existsSync() == false) {
+      appDir.createSync(recursive: true);
+    }
 
     final config = {
       "node": node,
@@ -99,9 +102,7 @@ class MainController extends GetxController
     };
 
     final configJson = jsonEncode(config);
-
-    final directory = await getApplicationSupportDirectory();
-    File(p.join(directory.path, 'config.json')).writeAsStringSync(configJson);
+    File(p.join(appDir.path, 'config.json')).writeAsStringSync(configJson);
 
     walletEditPassword.text = '';
   }
@@ -118,8 +119,12 @@ class MainController extends GetxController
   Future<void> saveStoreFile() async {
     final dir = await getApplicationSupportDirectory();
     final storeDir = Directory(p.join(dir.path, 'store'));
-    final List<FileSystemEntity> files = storeDir.listSync();
 
+    if (storeDir.existsSync() == false) {
+      storeDir.createSync(recursive: true);
+    }
+
+    final List<FileSystemEntity> files = storeDir.listSync();
     for (var store in files) {
       String storeName = p.basename(store.path);
       String seedPhrase = File(store.path).readAsStringSync();
@@ -170,12 +175,14 @@ class MainController extends GetxController
         .record('enjin.daemon.store')
         .get(StoreService.instance.db!) as String?;
 
-    if (seed != null && storeFile != null) {
-      final dir = await getApplicationSupportDirectory();
-      final storePath = p.join(dir.path, 'store');
-      Directory(storePath).createSync(recursive: true);
+    final dir = await getApplicationSupportDirectory();
+    final storeDir = Directory(p.join(dir.path, 'store'));
+    if (storeDir.existsSync() == false) {
+      storeDir.createSync(recursive: true);
+    }
 
-      final file = File(p.join(storePath, storeFile));
+    if (seed != null) {
+      final file = File(p.join(storeDir.path, storeFile));
       file.writeAsStringSync(seed);
 
       return true;

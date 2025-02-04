@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:system_info2/system_info2.dart';
 
 import '../../../routes/app_pages.dart';
 
@@ -31,15 +32,17 @@ class LoadingController extends GetxController {
     final String tagName = response.data['tag_name'];
 
     String system = Platform.operatingSystem;
+    String arch = 'x86_64';
+
     if (system == 'macos') {
       system = 'apple';
+      arch = '${SysInfo.kernelArchitecture}'.toLowerCase();
     }
 
     for (var asset in assets) {
       final String assetUrl = asset['browser_download_url'];
-
       if (assetUrl.contains('sha256sum')) continue;
-      if (assetUrl.contains(system)) {
+      if (assetUrl.contains(system) && assetUrl.contains(arch)) {
         return (
           assetUrl: assetUrl,
           tagName: tagName,
