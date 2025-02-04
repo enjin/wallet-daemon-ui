@@ -1,7 +1,8 @@
-import 'package:lottie/lottie.dart';
-import 'controller/loading_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:daemon/core/app_export.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+import 'controller/loading_controller.dart';
 
 class LoadingScreen extends GetWidget<LoadingController> {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class LoadingScreen extends GetWidget<LoadingController> {
               ),
             ),
             Positioned(
-              top: mediaQueryData.size.height / 2 + 80,
+              top: mediaQueryData.size.height / 2 + 84,
               child: const Text(
                 'LOADING',
                 style: TextStyle(
@@ -49,6 +50,22 @@ class LoadingScreen extends GetWidget<LoadingController> {
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,
                   letterSpacing: 8.40,
+                ),
+              ),
+            ),
+            Positioned(
+              top: mediaQueryData.size.height / 2 + 114,
+              child: Obx(
+                () => Text(
+                  controller.latestVersion.value,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 8.40,
+                  ),
                 ),
               ),
             ),

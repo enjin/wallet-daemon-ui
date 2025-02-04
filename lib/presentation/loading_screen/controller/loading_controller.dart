@@ -1,15 +1,20 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:download_assets/download_assets.dart';
+import 'package:archive/archive_io.dart';
+import 'package:background_downloader/background_downloader.dart';
 import 'package:daemon/core/app_export.dart';
-import 'package:daemon/routes/app_pages.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:system_info2/system_info2.dart';
+
+import '../../../routes/app_pages.dart';
 
 class LoadingController extends GetxController {
   static LoadingController get to => Get.find();
+
+  final latestVersion = ''.obs;
 
   @override
   void onReady() {
@@ -18,25 +23,62 @@ class LoadingController extends GetxController {
     _checkDependencies();
   }
 
+  Future<({String? assetUrl, String? tagName})> _getLatestRelease() async {
+    final dio = Dio();
+    final response = await dio.get(
+        'https://api.github.com/repos/enjin/wallet-daemon/releases/latest');
+
+    final assets = response.data['assets'] ?? [];
+    final String tagName = response.data['tag_name'];
+
+    String system = Platform.operatingSystem;
+    String arch = 'x86_64';
+
+    if (system == 'macos') {
+      system = 'apple';
+      arch = '${SysInfo.kernelArchitecture}'.toLowerCase();
+    }
+
+    for (var asset in assets) {
+      final String assetUrl = asset['browser_download_url'];
+      if (assetUrl.contains('sha256sum')) continue;
+      if (assetUrl.contains(system) && assetUrl.contains(arch)) {
+        return (
+          assetUrl: assetUrl,
+          tagName: tagName,
+        );
+      }
+    }
+
+    return (
+      assetUrl: null,
+      tagName: null,
+    );
+  }
+
+  Future<void> _getDaemonService(String path) async {
+    final (:assetUrl, :tagName) = await _getLatestRelease();
+
+    if (assetUrl == null) return;
+    if (tagName != null) latestVersion.value = tagName;
+
+    final task = DownloadTask(
+      url: assetUrl,
+      filename: 'wallet_daemon_latest.zip',
+      baseDirectory: BaseDirectory.applicationSupport,
+    );
+
+    await FileDownloader().download(task);
+    extractFileToDisk(p.join(path, 'wallet_daemon_latest.zip'), path);
+  }
+
   Future<void> _checkDependencies() async {
     final Directory appDir = await getApplicationSupportDirectory();
 
-    final DownloadAssetsController downloadAssetsController =
-        DownloadAssetsController();
-
-    bool hasService = await _checkWalletServiceExists(
-      path: appDir.path,
-      downloadController: downloadAssetsController,
-    );
-
-    await _downloadDaemon(downloadController: downloadAssetsController);
-
-    // if (!hasService) {
-    // }
-
+    await _getDaemonService(appDir.path);
     await _checkAndCopyConfig(appDir.path);
 
-    bool hasDatabase = await _checkDatabaseExists(appDir.path);
+    final hasDatabase = await _checkDatabaseExists(appDir.path);
 
     Future.delayed(
       const Duration(seconds: 1),
@@ -51,53 +93,9 @@ class LoadingController extends GetxController {
     return File(fullPath).existsSync();
   }
 
-  Future<bool> _checkWalletServiceExists({
-    required String path,
-    required DownloadAssetsController downloadController,
-  }) async {
-    await downloadController.init(
-      assetDir: path,
-      useFullDirectoryPath: true,
-    );
-
-    return await downloadController.assetsFileExists('wallet-daemon');
-  }
-
-  Future<void> _downloadDaemon({
-    required DownloadAssetsController downloadController,
-  }) async {
-    String? assetUrl = await _getLatestRelease();
-
-    if (assetUrl != null) {
-      await downloadController.startDownload(
-        onCancel: () {},
-        assetsUrls: [assetUrl],
-        onProgress: (progressValue) {},
-      );
-    }
-  }
-
-  Future<String?> _getLatestRelease() async {
-    final dio = Dio();
-    final response = await dio.get(
-        'https://api.github.com/repos/enjin/wallet-daemon/releases/latest');
-
-    final assets = response.data['assets'] ?? [];
-    String system = Platform.operatingSystem;
-    if (system == 'macos') {
-      system = 'apple';
-    }
-
-    for (var asset in assets) {
-      final String assetUrl = asset['browser_download_url'];
-
-      if (assetUrl.contains('sha256sum')) continue;
-      if (assetUrl.contains(system)) {
-        return assetUrl;
-      }
-    }
-
-    return null;
+  Future<void> _checkAndCopyConfig(String path) async {
+    String configFile = '$path/config.json';
+    await _copyAsset('config.json', configFile);
   }
 
   Future<void> _copyAsset(String asset, String to) async {
@@ -106,10 +104,5 @@ class LoadingController extends GetxController {
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     final buffer = await File(to).create(recursive: true);
     buffer.writeAsBytesSync(bytes);
-  }
-
-  Future<void> _checkAndCopyConfig(String path) async {
-    String configFile = '$path/config.json';
-    await _copyAsset('config.json', configFile);
   }
 }
